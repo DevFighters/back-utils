@@ -2,7 +2,6 @@
 
 namespace DevFighters\Utils\Service\Email;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -84,8 +83,9 @@ class EmailService {
     }
     public function setHtmlByTemplate(
         string $twigPath,
-        array $contextParameters = []):void{
+        array $contextParameters = []):self{
         $this->setHtml($this->renderTwig($twigPath,$contextParameters));
+        return $this;
     }
     public function setText(string $text): self{
         $this->email->text($text);
