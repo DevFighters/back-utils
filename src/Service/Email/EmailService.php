@@ -21,8 +21,7 @@ class EmailService {
 
     public function __construct(
         private readonly MailerInterface       $mailer,
-        private readonly Environment           $twig,
-        private readonly ParameterBagInterface $bag){}
+        private readonly Environment           $twig){}
 
     public function createEmail():self{
         $this->email = new Email();
@@ -115,8 +114,7 @@ class EmailService {
     }
     private function getEnv(string $key): mixed
     {
-        $param = "env($key)";
-        return $this->bag->has($param) ? $this->bag->get($param) : null;
+        return $_ENV[$key] ?? null;
     }
     private function renderTwig(
         string $twigPath,
