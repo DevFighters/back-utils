@@ -48,7 +48,7 @@ class EmailService {
     }
     public function setSender(string $address, string $name = ''): self{
         $replyTo = new Address($address,$name);
-        $this->email->replyTo($replyTo);
+        $this->email->from($replyTo);
         return $this;
     }
     public function setRecipient(string $recipient):self{
