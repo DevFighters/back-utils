@@ -6,7 +6,6 @@ use DevFighters\Utils\Domain\Repository\AppCountryRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Locale;
 use Symfony\Component\Intl\Countries;
 
 #[ORM\Entity(repositoryClass: AppCountryRepository::class)]
@@ -54,15 +53,9 @@ class AppCountry
         return $this;
     }
 
-    public function getName(?string $language = null): string
+    public function getName(): string
     {
-        $current = Locale::getDefault();
-        if (!is_null($language)) {
-            Locale::setDefault($language);
-        }
-        $name = Countries::getName($this->code);
-        Locale::setDefault($current);
-        return $name;
+        return Countries::getName($this->code);
     }
 
     /** @return Collection<int, AppCountryAdministrativeArea> */
