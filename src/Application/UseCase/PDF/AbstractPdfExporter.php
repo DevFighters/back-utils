@@ -1,10 +1,12 @@
 <?php
 
-namespace DevFighters\Utils\Application\UseCase;
+namespace DevFighters\Utils\Application\UseCase\PDF;
 
-use App\UseCase\PDF\PdfConstructor;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 abstract class AbstractPdfExporter
 {
@@ -18,6 +20,11 @@ abstract class AbstractPdfExporter
         $this->pdfConstructor = new PdfConstructor($twig);
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function downloadPdf(): Response
     {
         return $this->pdfConstructor->downloadPdf(
@@ -27,6 +34,11 @@ abstract class AbstractPdfExporter
         );
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function streamPdf(): Response
     {
         return $this->pdfConstructor->streamPdf(
