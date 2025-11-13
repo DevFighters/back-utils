@@ -3,6 +3,7 @@
 namespace DevFighters\Utils\Domain\Entity;
 
 use DevFighters\Utils\Domain\Repository\AppCountryAdministrativeAreaRepository;
+use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

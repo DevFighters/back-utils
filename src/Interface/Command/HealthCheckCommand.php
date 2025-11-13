@@ -3,16 +3,19 @@
 namespace DevFighters\Utils\Interface\Command;
 
 use DevFighters\Utils\Application\UseCase\Checker\App\AppCountryAdministrativeAreaChecker;
+use DevFighters\Utils\Application\UseCase\Checker\App\AppSystemLanguageChecker;
 use DevFighters\Utils\Application\UseCase\Checker\App\AppTimezoneChecker;
 use DevFighters\Utils\Application\UseCase\Checker\App\StandardAppChecker;
 use DevFighters\Utils\Application\UseCase\Checker\DataChecker;
 use DevFighters\Utils\Domain\Entity\AppCountry;
 use DevFighters\Utils\Domain\Entity\AppCountryAdministrativeArea;
 use DevFighters\Utils\Domain\Entity\AppCurrency;
+use DevFighters\Utils\Domain\Entity\AppSystemLanguage;
 use DevFighters\Utils\Domain\Entity\AppTimezone;
 use DevFighters\Utils\Domain\Enum\AppCountryAdministrativeAreaEnum;
 use DevFighters\Utils\Domain\Enum\AppCountryEnum;
 use DevFighters\Utils\Domain\Enum\AppCurrencyEnum;
+use DevFighters\Utils\Domain\Enum\AppSystemLanguageEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,10 +32,11 @@ class HealthCheckCommand extends Command
 {
 
     private const array INTEGRITY_CHECKS = [
-        ['checkClass' => AppTimezoneChecker::class, 'dataClass' => AppTimezone::class],
         ['checkClass' => StandardAppChecker::class, 'dataClass' => AppCountry::class, 'enumClass' => AppCountryEnum::class],
         ['checkClass' => AppCountryAdministrativeAreaChecker::class, 'dataClass' => AppCountryAdministrativeArea::class, 'enumClass' => AppCountryAdministrativeAreaEnum::class],
         ['checkClass' => StandardAppChecker::class, 'dataClass' => AppCurrency::class, 'enumClass' => AppCurrencyEnum::class],
+        ['checkClass' => AppSystemLanguageChecker::class, 'dataClass' => AppSystemLanguage::class, 'enumClass' => AppSystemLanguageEnum::class],
+        ['checkClass' => AppTimezoneChecker::class, 'dataClass' => AppTimezone::class],
     ];
 
     public function __construct(public EntityManagerInterface $entityManager)

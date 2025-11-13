@@ -3,6 +3,7 @@
 namespace DevFighters\Utils\Domain\Entity;
 
 use DevFighters\Utils\Domain\Repository\AppCountryRepository;
+use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,10 +21,7 @@ class AppCountry
     #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     private int $id;
 
-    #[ORM\Column(
-        type: 'string',
-        length: 2,
-        options: ['fixed' => true])]
+    #[ORM\Column(type: 'string', length: 2, options: ['fixed' => true])]
     private string $code;
 
     #[ORM\OneToMany(targetEntity: AppCountryAdministrativeArea::class, mappedBy: 'country')]

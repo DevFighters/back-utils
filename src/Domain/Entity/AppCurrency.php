@@ -3,6 +3,7 @@
 namespace DevFighters\Utils\Domain\Entity;
 
 use DevFighters\Utils\Domain\Repository\AppCurrencyRepository;
+use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,9 +16,7 @@ class AppCurrency
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "NONE")]
-    #[ORM\Column(
-        type: "tinyint",
-        options: ["unsigned" => true])]
+    #[ORM\Column(type: "tinyint", options: ["unsigned" => true])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 255)]

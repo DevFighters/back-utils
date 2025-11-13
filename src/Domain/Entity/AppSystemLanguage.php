@@ -2,24 +2,24 @@
 
 namespace DevFighters\Utils\Domain\Entity;
 
-use DateInvalidTimeZoneException;
-use DateTimeZone;
-use DevFighters\Utils\Domain\Repository\AppTimezoneRepository;
+use DevFighters\Utils\Domain\Repository\AppSystemLanguageRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AppTimezoneRepository::class)]
+#[ORM\Entity(repositoryClass: AppSystemLanguageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class AppTimezone
+class AppSystemLanguage
 {
-
     use CommonDate;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "NONE")]
-    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     private int $id;
+
+    #[ORM\Column(type: Types::STRING, length: 5, unique: true)]
+    private string $code;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
@@ -32,15 +32,20 @@ class AppTimezone
     public function setId(int $id): static
     {
         $this->id = $id;
+
         return $this;
     }
 
-    /**
-     * @throws DateInvalidTimeZoneException
-     */
-    public function getDateTimeZone(): DateTimeZone
+    public function getCode(): ?string
     {
-        return new DateTimeZone($this->getName());
+        return $this->code;
+    }
+
+    public function setCode(string $code): static
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
     public function getName(): string
@@ -48,9 +53,10 @@ class AppTimezone
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Entity;
+namespace DevFighters\Utils\Domain\Trait;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
