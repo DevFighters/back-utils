@@ -2,14 +2,15 @@
 
 namespace DevFighters\Utils\Domain\Entity;
 
-use DevFighters\Utils\Domain\Repository\AppSystemLanguageRepository;
+use DevFighters\Utils\Domain\Repository\AppLanguageRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Intl\Languages;
 
-#[ORM\Entity(repositoryClass: AppSystemLanguageRepository::class)]
+#[ORM\Entity(repositoryClass: AppLanguageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class AppSystemLanguage
+class AppLanguage
 {
     use CommonDate;
 
@@ -18,11 +19,9 @@ class AppSystemLanguage
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     private int $id;
 
-    #[ORM\Column(type: Types::STRING, length: 5, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 2, unique: true)]
     private string $code;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    private string $name;
 
     public function getId(): int
     {
@@ -41,6 +40,11 @@ class AppSystemLanguage
         return $this->code;
     }
 
+    public function getCodeInLower(): ?string
+    {
+        return strtolower($this->code);
+    }
+
     public function setCode(string $code): static
     {
         $this->code = $code;
@@ -48,16 +52,17 @@ class AppSystemLanguage
         return $this;
     }
 
-    public function getName(): string
+    public function getName(?string $displayLocale = null): string
     {
-        return $this->name;
+        $name = Languages::getName(
+            language: $this->getCodeInLower(),
+            displayLocale: $displayLocale);
+        return ucfirst($name);
     }
 
-    public function setName(string $name): static
+    public function getOriginalName(): string
     {
-        $this->name = $name;
-
-        return $this;
+        return $this->getName($this->getCodeInLower());
     }
 
 }
