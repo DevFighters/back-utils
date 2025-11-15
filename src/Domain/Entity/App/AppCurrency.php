@@ -1,8 +1,8 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Entity;
+namespace DevFighters\Utils\Domain\Entity\App;
 
-use DevFighters\Utils\Domain\Repository\AppCurrencyRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCurrencyRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AppCurrency
 {
-
     use CommonDate;
 
     #[ORM\Id]
@@ -19,20 +18,19 @@ class AppCurrency
     #[ORM\Column(type: "tinyint", options: ["unsigned" => true])]
     private int $id;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 3, unique: true, options: ['fixed' => true])]
     private string $code;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 1, options: ['fixed' => true])]
     private string $symbol;
 
     public function getId(): int
     {
         return $this->id;
     }
-
     public function setId(int $id): self
     {
         $this->id = $id;
@@ -43,7 +41,6 @@ class AppCurrency
     {
         return $this->code;
     }
-
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -54,7 +51,6 @@ class AppCurrency
     {
         return $this->name;
     }
-
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -65,7 +61,6 @@ class AppCurrency
     {
         return $this->symbol;
     }
-
     public function setSymbol(string $symbol): self
     {
         $this->symbol = $symbol;

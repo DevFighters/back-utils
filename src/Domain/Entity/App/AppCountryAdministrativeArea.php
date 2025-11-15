@@ -1,8 +1,8 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Entity;
+namespace DevFighters\Utils\Domain\Entity\App;
 
-use DevFighters\Utils\Domain\Repository\AppCountryAdministrativeAreaRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCountryAdministrativeAreaRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class AppCountryAdministrativeArea
 {
-
     use CommonDate;
 
     #[ORM\Id]
@@ -21,7 +20,7 @@ class AppCountryAdministrativeArea
 
     #[ORM\ManyToOne(targetEntity: AppCountry::class, inversedBy: 'administrativeAreas')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?AppCountry $country = null;
+    private AppCountry $country;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $code;
@@ -33,7 +32,6 @@ class AppCountryAdministrativeArea
     {
         return $this->id;
     }
-
     public function setId(int $id): static
     {
         $this->id = $id;
@@ -44,13 +42,9 @@ class AppCountryAdministrativeArea
     {
         return $this->country;
     }
-
-    public function setCountry(?AppCountry $country): static
+    public function setCountry(AppCountry $country): static
     {
         $this->country = $country;
-        if (($country !== null) && !$country->getAdministrativeAreas()->contains($this)) {
-            $country->addAdministrativeArea($this);
-        }
         return $this;
     }
 
@@ -58,7 +52,6 @@ class AppCountryAdministrativeArea
     {
         return $this->code;
     }
-
     public function setCode(string $code): static
     {
         $this->code = $code;
@@ -69,7 +62,6 @@ class AppCountryAdministrativeArea
     {
         return $this->name;
     }
-
     public function setName(string $name): static
     {
         $this->name = $name;

@@ -1,9 +1,9 @@
 <?php
 
-namespace DevFighters\Utils\Application\Bus\QueryHandler\App;
+namespace DevFighters\Utils\Application\Bus\QueryHandler\App\Timezone;
 
-use DevFighters\Utils\Application\Bus\Query\App\GetAllAppTimezonesQuery;
-use DevFighters\Utils\Domain\Repository\AppTimezoneRepository;
+use DevFighters\Utils\Application\Bus\Query\App\Timezone\GetAllAppTimezonesQuery;
+use DevFighters\Utils\Domain\Repository\App\AppTimezoneRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

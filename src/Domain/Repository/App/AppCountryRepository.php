@@ -1,10 +1,10 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Repository;
+namespace DevFighters\Utils\Domain\Repository\App;
 
+use DevFighters\Utils\Domain\Entity\App\AppCountry;
 use DevFighters\Utils\Domain\RepositoryUtils\RepositoryAbstract;
 use DevFighters\Utils\Domain\RepositoryUtils\Trait\PersisterTrait;
-use DevFighters\Utils\Domain\Entity\AppCountry;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

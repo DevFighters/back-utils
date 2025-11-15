@@ -1,10 +1,10 @@
 <?php
 
-namespace DevFighters\Utils\Application\Bus\QueryHandler\App;
+namespace DevFighters\Utils\Application\Bus\QueryHandler\App\Country;
 
-use DevFighters\Utils\Application\Bus\Query\App\GetAppCountryQuery;
-use DevFighters\Utils\Domain\Entity\AppCountry;
-use DevFighters\Utils\Domain\Repository\AppCountryRepository;
+use DevFighters\Utils\Application\Bus\Query\App\Country\GetAppCountryQuery;
+use DevFighters\Utils\Domain\Entity\App\AppCountry;
+use DevFighters\Utils\Domain\Repository\App\AppCountryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

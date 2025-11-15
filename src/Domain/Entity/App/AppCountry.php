@@ -1,8 +1,8 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Entity;
+namespace DevFighters\Utils\Domain\Entity\App;
 
-use DevFighters\Utils\Domain\Repository\AppCountryRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCountryRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -13,7 +13,6 @@ use Symfony\Component\Intl\Countries;
 #[ORM\HasLifecycleCallbacks]
 class AppCountry
 {
-
     use CommonDate;
 
     #[ORM\Id]
@@ -33,7 +32,6 @@ class AppCountry
     {
         return $this->id;
     }
-
     public function setId(int $id): static
     {
         $this->id = $id;
@@ -44,7 +42,6 @@ class AppCountry
     {
         return $this->code;
     }
-
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -61,29 +58,10 @@ class AppCountry
     {
         return $this->administrativeAreas;
     }
-
     public function hasAdministrativeAreas(): bool
     {
-        return count($this->administrativeAreas) > 0;
+        return !$this->administrativeAreas->isEmpty();
     }
 
-    public function addAdministrativeArea(AppCountryAdministrativeArea $administrativeArea): self
-    {
-        if (!$this->administrativeAreas->contains($administrativeArea)) {
-            $this->administrativeAreas->add($administrativeArea);
-            if ($administrativeArea->getCountry() !== $this) {
-                $administrativeArea->setCountry($this);
-            }
-        }
-        return $this;
-    }
-
-    public function removeAdministrativeArea(AppCountryAdministrativeArea $administrativeArea): static
-    {
-        if ($this->administrativeAreas->removeElement($administrativeArea) && $administrativeArea->getCountry() === $this) {
-            $administrativeArea->setCountry(null);
-        }
-        return $this;
-    }
 
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Repository;
+namespace DevFighters\Utils\Domain\Repository\App;
 
-use DevFighters\Utils\Domain\Entity\AppLanguage;
+use DevFighters\Utils\Domain\Entity\App\AppLanguage;
 use DevFighters\Utils\Domain\RepositoryUtils\RepositoryAbstract;
 use DevFighters\Utils\Domain\RepositoryUtils\Trait\PersisterTrait;
 use Doctrine\Persistence\ManagerRegistry;

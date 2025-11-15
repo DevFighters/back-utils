@@ -2,9 +2,9 @@
 
 namespace DevFighters\Utils\Infrastructure\Fixtures\Init;
 
-use DevFighters\Utils\Domain\Entity\AppTimezone;
+use DevFighters\Utils\Domain\Entity\App\AppTimezone;
 use DevFighters\Utils\Domain\Enum\AppTimezoneEnum;
-use DevFighters\Utils\Domain\Repository\AppTimezoneRepository;
+use DevFighters\Utils\Domain\Repository\App\AppTimezoneRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

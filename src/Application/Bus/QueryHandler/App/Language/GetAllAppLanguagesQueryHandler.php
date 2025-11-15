@@ -1,9 +1,9 @@
 <?php
 
-namespace DevFighters\Utils\Application\Bus\QueryHandler\App;
+namespace DevFighters\Utils\Application\Bus\QueryHandler\App\Language;
 
-use DevFighters\Utils\Application\Bus\Query\App\GetAllAppLanguagesQuery;
-use DevFighters\Utils\Domain\Repository\AppLanguageRepository;
+use DevFighters\Utils\Application\Bus\Query\App\Language\GetAllAppLanguagesQuery;
+use DevFighters\Utils\Domain\Repository\App\AppLanguageRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

@@ -1,8 +1,8 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Entity;
+namespace DevFighters\Utils\Domain\Entity\App;
 
-use DevFighters\Utils\Domain\Repository\AppLanguageRepository;
+use DevFighters\Utils\Domain\Repository\App\AppLanguageRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +19,7 @@ class AppLanguage
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     private int $id;
 
-    #[ORM\Column(type: Types::STRING, length: 2, unique: true)]
+    #[ORM\Column(type: Types::STRING, length: 2, unique: true, options: ['fixed' => true])]
     private string $code;
 
 
@@ -27,7 +27,6 @@ class AppLanguage
     {
         return $this->id;
     }
-
     public function setId(int $id): static
     {
         $this->id = $id;
@@ -39,12 +38,10 @@ class AppLanguage
     {
         return $this->code;
     }
-
     public function getCodeInLower(): ?string
     {
         return strtolower($this->code);
     }
-
     public function setCode(string $code): static
     {
         $this->code = $code;
@@ -59,7 +56,6 @@ class AppLanguage
             displayLocale: $displayLocale);
         return ucfirst($name);
     }
-
     public function getOriginalName(): string
     {
         return $this->getName($this->getCodeInLower());

@@ -9,8 +9,9 @@ use ReflectionException;
 class StandardAppChecker extends CheckerInterface
 {
 
-    public function __construct(private readonly EntityManagerInterface $entityManager,
-                                private readonly array                  $dataClass)
+    public function __construct(
+        protected readonly EntityManagerInterface $entityManager,
+        protected readonly array                  $dataClass)
     {
         parent::__construct($dataClass);
     }
@@ -32,7 +33,7 @@ class StandardAppChecker extends CheckerInterface
         return $this->validateData($missingInDatabase, $missingInReferenceData);
     }
 
-    private function getDatabaseData(): array
+    protected function getDatabaseData(): array
     {
         $data = [];
         foreach ($this->entityManager->getRepository($this->dataClass['dataClass'])->findAll() as $elementData) {

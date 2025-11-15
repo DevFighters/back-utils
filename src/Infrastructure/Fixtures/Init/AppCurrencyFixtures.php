@@ -2,9 +2,9 @@
 
 namespace DevFighters\Utils\Infrastructure\Fixtures\Init;
 
-use DevFighters\Utils\Domain\Entity\AppCurrency;
+use DevFighters\Utils\Domain\Entity\App\AppCurrency;
 use DevFighters\Utils\Domain\Enum\AppCurrencyEnum;
-use DevFighters\Utils\Domain\Repository\AppCurrencyRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCurrencyRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

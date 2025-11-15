@@ -1,10 +1,10 @@
 <?php
 
-namespace DevFighters\Utils\Domain\Entity;
+namespace DevFighters\Utils\Domain\Entity\App;
 
 use DateInvalidTimeZoneException;
 use DateTimeZone;
-use DevFighters\Utils\Domain\Repository\AppTimezoneRepository;
+use DevFighters\Utils\Domain\Repository\App\AppTimezoneRepository;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,10 +28,19 @@ class AppTimezone
     {
         return $this->id;
     }
-
     public function setId(int $id): static
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    public function setName(string $name): self
+    {
+        $this->name = $name;
         return $this;
     }
 
@@ -41,17 +50,6 @@ class AppTimezone
     public function getDateTimeZone(): DateTimeZone
     {
         return new DateTimeZone($this->getName());
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
     }
 
 }

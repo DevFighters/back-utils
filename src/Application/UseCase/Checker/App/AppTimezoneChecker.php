@@ -7,14 +7,8 @@ use DevFighters\Utils\Application\UseCase\Checker\CheckerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionException;
 
-class AppTimezoneChecker extends CheckerInterface
+class AppTimezoneChecker extends StandardAppChecker
 {
-
-    public function __construct(private readonly EntityManagerInterface $entityManager,
-                                private readonly array                  $dataClass)
-    {
-        parent::__construct($dataClass);
-    }
 
     /**
      * @throws ReflectionException
@@ -28,15 +22,6 @@ class AppTimezoneChecker extends CheckerInterface
         $missingInReferenceData = array_diff(array_keys($databaseData), $referenceData);
 
         return $this->validateData($missingInDatabase, $missingInReferenceData);
-    }
-
-    private function getDatabaseData(): array
-    {
-        $data = [];
-        foreach ($this->entityManager->getRepository($this->dataClass['dataClass'])->findAll() as $elementData) {
-            $data[$elementData->getName()] = $elementData->getId();
-        }
-        return $data;
     }
 
 }
