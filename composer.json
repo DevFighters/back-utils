@@ -11,23 +11,59 @@
   ],
   "require": {
     "php": ">=8.4",
+
+    "ext-bcmath": "*",
     "ext-ctype": "*",
     "ext-curl": "*",
+    "ext-fileinfo": "*",
+    "ext-gd": "*",
     "ext-iconv": "*",
-    "ext-json": "*",
-    "ext-pdo": "*",
     "ext-intl": "*",
+    "ext-json": "*",
+    "ext-soap": "*",
+    "ext-zlib": "*",
+    "ext-pdo": "*",
+
+    "api-platform/doctrine-orm": "^4.2",
+    "api-platform/symfony": "^4.2",
+
+    "beberlei/doctrineextensions": "^1.5",
+
     "doctrine/dbal": "^4.0",
     "doctrine/doctrine-bundle": "^2.7",
     "doctrine/doctrine-fixtures-bundle": "^4.0",
     "doctrine/doctrine-migrations-bundle": "^3.0",
     "doctrine/orm": "^3.0",
-    "api-platform/symfony": ">=4.2.3",
-    "symfony/messenger": "^7.3",
-    "symfony/security-bundle": "^7.3",
-    "symfony/mailer": "^7.3",
-    "symfony/mailgun-mailer": "^7.3",
-    "symfony/twig-bundle": "^7.3"
+
+    "lexik/jwt-authentication-bundle": "^3.1",
+
+    "nelmio/cors-bundle": "^2.6",
+
+    "phpoffice/phpspreadsheet": "^5.2",
+
+    "symfony/asset": "7.3.*",
+    "symfony/console": "7.3.*",
+    "symfony/dotenv": "7.3.*",
+    "symfony/expression-language": "7.3.*",
+    "symfony/framework-bundle": "7.3.*",
+    "symfony/google-mailer": "7.3.*",
+    "symfony/http-client": "7.3.*",
+    "symfony/intl": "7.3.*",
+    "symfony/mailer": "7.3.*",
+    "symfony/mailgun-mailer": "7.3.*",
+    "symfony/messenger": "7.3.*",
+    "symfony/mime": "7.3.*",
+    "symfony/property-access": "7.3.*",
+    "symfony/property-info": "7.3.*",
+    "symfony/runtime": "7.3.*",
+    "symfony/security-bundle": "7.3.*",
+    "symfony/serializer": "7.3.*",
+    "symfony/twig-bundle": "7.3.*",
+    "symfony/validator": "7.3.*",
+    "symfony/yaml": "7.3.*",
+
+    "twig/extra-bundle": "^3.22",
+    "twig/intl-extra": "^3.22"
   },
   "autoload": {
     "psr-4": {
