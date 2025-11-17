@@ -18,7 +18,6 @@ trait CommonDate
     {
         return $this->insAt;
     }
-
     public function setInsAt(DateTimeImmutable $insAt): self
     {
         $this->insAt = $insAt;
@@ -29,7 +28,6 @@ trait CommonDate
     {
         return $this->updAt;
     }
-
     public function setUpdAt(DateTimeImmutable $updAt): self
     {
         $this->updAt = $updAt;

@@ -2,11 +2,11 @@
 
 namespace DevFighters\Utils\Infrastructure\Fixtures\Init;
 
-use DevFighters\Utils\Domain\Entity\AppCountry;
-use DevFighters\Utils\Domain\Entity\AppCountryAdministrativeArea;
+use DevFighters\Utils\Domain\Entity\App\AppCountry;
+use DevFighters\Utils\Domain\Entity\App\AppCountryAdministrativeArea;
 use DevFighters\Utils\Domain\Enum\AppCountryAdministrativeAreaEnum;
 use DevFighters\Utils\Domain\Enum\AppCountryEnum;
-use DevFighters\Utils\Domain\Repository\AppCountryAdministrativeAreaRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCountryAdministrativeAreaRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

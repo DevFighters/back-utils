@@ -2,29 +2,19 @@
 
 namespace DevFighters\Utils\Service\Email;
 
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
-class EmailService
+class MailerBuilder
 {
 
     public const string MAILER_SENDER_EMAIL = 'MAILER_SENDER_EMAIL';
     public const string MAILER_SENDER_NAME = 'MAILER_SENDER_NAME';
-    public const string MAILER_TEST_ACTIVATE = 'MAILER_TEST_ACTIVATE';
-    public const string MAILER_TEST_RECIPIENT = 'MAILER_TEST_RECIPIENT';
-    public const bool DEFAULT_TEST_MODE = true;
 
     private Email $email;
 
-    public function __construct(
-        private readonly MailerInterface $mailer,
-        private readonly Environment     $twig)
+    public function __construct(private readonly Environment $twig)
     {
     }
 
@@ -34,23 +24,13 @@ class EmailService
         $this->setDefaultSender();
         return $this;
     }
-
+    public function destroyEmail():self{
+        unset($this->email);
+        return $this;
+    }
     public function getEmail(): Email
     {
         return $this->email;
-    }
-
-    /**
-     * @throws TransportExceptionInterface
-     */
-    public function send(bool $keepEmail = false): self
-    {
-        $this->ifTestModePerformActions();
-        $this->mailer->send($this->email);
-        if (!$keepEmail) {
-            unset($this->email);
-        }
-        return $this;
     }
 
     public function setDefaultSender(): self
@@ -59,14 +39,12 @@ class EmailService
             address: $this->getEnv(self::MAILER_SENDER_EMAIL),
             name: $this->getEnv(self::MAILER_SENDER_NAME));
     }
-
     public function setSender(string $address, string $name = ''): self
     {
         $replyTo = new Address($address, $name);
         $this->email->from($replyTo);
         return $this;
     }
-
     /**
      * @return Address[]
      */
@@ -80,13 +58,11 @@ class EmailService
         $this->email->to($recipient);
         return $this;
     }
-
     public function setRecipients(array $recipients): self
     {
         $this->email->to(...$recipients);
         return $this;
     }
-
     /**
      * @return Address[]
      */
@@ -95,29 +71,14 @@ class EmailService
         return $this->email->getTo();
     }
 
-    public function setRecipientForTest(): self
-    {
-        $recipient = $this->getEnv(self::MAILER_TEST_RECIPIENT);
-        $this->setRecipient($recipient);
-        return $this;
-    }
-
     public function setSubject(string $subject): self
     {
         $this->email->subject($subject);
         return $this;
     }
-
     public function getSubject(): string
     {
         return $this->email->getSubject();
-    }
-
-    public function setSubjectForTest(): self
-    {
-        $subject = "!-TEST-! {$this->email->getSubject()}";
-        $this->email->subject($subject);
-        return $this;
     }
 
     public function setReplyTo(string $address, string $name = ''): self
@@ -126,7 +87,6 @@ class EmailService
         $this->email->replyTo($replyTo);
         return $this;
     }
-
     /**
      * @return Address[]
      */
@@ -140,23 +100,17 @@ class EmailService
         $this->email->html($html);
         return $this;
     }
-
-    public function getHtml(): ?string
-    {
-        return $this->email->getHtmlBody();
-    }
-
-    /**
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws LoaderError
-     */
     public function setHtmlByTemplate(
         string $twigPath,
         array  $contextParameters = []): self
     {
-        $this->setHtml($this->renderTwig($twigPath, $contextParameters));
+        $html = $this->renderTwig($twigPath, $contextParameters);
+        $this->setHtml($html);
         return $this;
+    }
+    public function getHtml(): ?string
+    {
+        return $this->email->getHtmlBody();
     }
 
     public function setText(string $text): self
@@ -164,7 +118,6 @@ class EmailService
         $this->email->text($text);
         return $this;
     }
-
     public function getText(): ?string
     {
         return $this->email->getTextBody();
@@ -180,32 +133,10 @@ class EmailService
         return $this;
     }
 
-    private function isTestMode(): bool
-    {
-        return filter_var(
-            $this->getEnv(self::MAILER_TEST_ACTIVATE) ?? self::DEFAULT_TEST_MODE,
-            FILTER_VALIDATE_BOOL
-        );
-    }
-
-    private function ifTestModePerformActions(): void
-    {
-        if ($this->isTestMode()) {
-            $this->setRecipientForTest();
-            $this->setSubjectForTest();
-        }
-    }
-
-    private function getEnv(string $key): mixed
+    protected function getEnv(string $key): mixed
     {
         return $_ENV[$key] ?? null;
     }
-
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
     private function renderTwig(
         string $twigPath,
         array  $contextParameters = []): string

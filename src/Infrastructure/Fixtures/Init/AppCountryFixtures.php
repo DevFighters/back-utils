@@ -2,9 +2,9 @@
 
 namespace DevFighters\Utils\Infrastructure\Fixtures\Init;
 
-use DevFighters\Utils\Domain\Entity\AppCountry;
+use DevFighters\Utils\Domain\Entity\App\AppCountry;
 use DevFighters\Utils\Domain\Enum\AppCountryEnum;
-use DevFighters\Utils\Domain\Repository\AppCountryRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCountryRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;

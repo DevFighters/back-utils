@@ -6,11 +6,11 @@ use DevFighters\Utils\Application\UseCase\Checker\App\AppCountryAdministrativeAr
 use DevFighters\Utils\Application\UseCase\Checker\App\AppTimezoneChecker;
 use DevFighters\Utils\Application\UseCase\Checker\App\StandardAppChecker;
 use DevFighters\Utils\Application\UseCase\Checker\DataChecker;
-use DevFighters\Utils\Domain\Entity\AppCountry;
-use DevFighters\Utils\Domain\Entity\AppCountryAdministrativeArea;
-use DevFighters\Utils\Domain\Entity\AppCurrency;
-use DevFighters\Utils\Domain\Entity\AppLanguage;
-use DevFighters\Utils\Domain\Entity\AppTimezone;
+use DevFighters\Utils\Domain\Entity\App\AppCountry;
+use DevFighters\Utils\Domain\Entity\App\AppCountryAdministrativeArea;
+use DevFighters\Utils\Domain\Entity\App\AppCurrency;
+use DevFighters\Utils\Domain\Entity\App\AppLanguage;
+use DevFighters\Utils\Domain\Entity\App\AppTimezone;
 use DevFighters\Utils\Domain\Enum\AppCountryAdministrativeAreaEnum;
 use DevFighters\Utils\Domain\Enum\AppCountryEnum;
 use DevFighters\Utils\Domain\Enum\AppCurrencyEnum;
