@@ -3,8 +3,6 @@
 namespace DevFighters\Utils\Application\UseCase\Checker\App;
 
 use DateTimeZone;
-use DevFighters\Utils\Application\UseCase\Checker\CheckerInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use ReflectionException;
 
 class AppTimezoneChecker extends StandardAppChecker

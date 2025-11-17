@@ -15,7 +15,7 @@ class AppCountryAdministrativeArea
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "NONE")]
-    #[ORM\Column(type: "smallint", options: ["unsigned" => true])]
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: AppCountry::class, inversedBy: 'administrativeAreas')]

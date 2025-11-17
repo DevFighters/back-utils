@@ -3,7 +3,7 @@
 namespace DevFighters\Utils\Application\Bus\QueryHandler\App;
 
 use DevFighters\Utils\Application\Bus\Query\App\GetAllAppCurrenciesQuery;
-use DevFighters\Utils\Domain\Repository\AppCurrencyRepository;
+use DevFighters\Utils\Domain\Repository\App\AppCurrencyRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

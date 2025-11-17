@@ -3,7 +3,7 @@
 namespace DevFighters\Utils\Application\Bus\QueryHandler\App;
 
 use DevFighters\Utils\Application\Bus\Query\App\GetAllAppLanguagesQuery;
-use DevFighters\Utils\Domain\Repository\AppLanguageRepository;
+use DevFighters\Utils\Domain\Repository\App\AppLanguageRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
