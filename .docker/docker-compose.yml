@@ -1,4 +1,4 @@
-name : symfony
+name : mg-back-utils
 services:
 
     php:
