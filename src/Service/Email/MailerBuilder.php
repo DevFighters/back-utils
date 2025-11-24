@@ -5,6 +5,9 @@ namespace DevFighters\Utils\Service\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class MailerBuilder
 {
@@ -24,10 +27,13 @@ class MailerBuilder
         $this->setDefaultSender();
         return $this;
     }
-    public function destroyEmail():self{
+
+    public function destroyEmail(): self
+    {
         unset($this->email);
         return $this;
     }
+
     public function getEmail(): Email
     {
         return $this->email;
@@ -39,12 +45,14 @@ class MailerBuilder
             address: $this->getEnv(self::MAILER_SENDER_EMAIL),
             name: $this->getEnv(self::MAILER_SENDER_NAME));
     }
+
     public function setSender(string $address, string $name = ''): self
     {
         $replyTo = new Address($address, $name);
         $this->email->from($replyTo);
         return $this;
     }
+
     /**
      * @return Address[]
      */
@@ -58,11 +66,13 @@ class MailerBuilder
         $this->email->to($recipient);
         return $this;
     }
+
     public function setRecipients(array $recipients): self
     {
         $this->email->to(...$recipients);
         return $this;
     }
+
     /**
      * @return Address[]
      */
@@ -76,6 +86,7 @@ class MailerBuilder
         $this->email->subject($subject);
         return $this;
     }
+
     public function getSubject(): string
     {
         return $this->email->getSubject();
@@ -87,6 +98,7 @@ class MailerBuilder
         $this->email->replyTo($replyTo);
         return $this;
     }
+
     /**
      * @return Address[]
      */
@@ -100,6 +112,12 @@ class MailerBuilder
         $this->email->html($html);
         return $this;
     }
+
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function setHtmlByTemplate(
         string $twigPath,
         array  $contextParameters = []): self
@@ -108,6 +126,7 @@ class MailerBuilder
         $this->setHtml($html);
         return $this;
     }
+
     public function getHtml(): ?string
     {
         return $this->email->getHtmlBody();
@@ -118,6 +137,7 @@ class MailerBuilder
         $this->email->text($text);
         return $this;
     }
+
     public function getText(): ?string
     {
         return $this->email->getTextBody();
@@ -137,6 +157,12 @@ class MailerBuilder
     {
         return $_ENV[$key] ?? null;
     }
+
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
     private function renderTwig(
         string $twigPath,
         array  $contextParameters = []): string

@@ -15,7 +15,7 @@ class AppCurrency
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "NONE")]
-    #[ORM\Column(type: "tinyint", options: ["unsigned" => true])]
+    #[ORM\Column(type: Types::SMALLINT, options: ["unsigned" => true])]
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 3, unique: true, options: ['fixed' => true])]
@@ -31,6 +31,7 @@ class AppCurrency
     {
         return $this->id;
     }
+
     public function setId(int $id): self
     {
         $this->id = $id;
@@ -41,6 +42,7 @@ class AppCurrency
     {
         return $this->code;
     }
+
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -51,6 +53,7 @@ class AppCurrency
     {
         return $this->name;
     }
+
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -61,6 +64,7 @@ class AppCurrency
     {
         return $this->symbol;
     }
+
     public function setSymbol(string $symbol): self
     {
         $this->symbol = $symbol;
