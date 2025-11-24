@@ -3,6 +3,7 @@
 namespace DevFighters\Utils\Application\Bus\QueryHandler\App\Country;
 
 use DevFighters\Utils\Application\Bus\Query\App\Country\GetAllAppCountriesQuery;
+use DevFighters\Utils\Domain\Entity\App\AppCountry;
 use DevFighters\Utils\Domain\Repository\App\AppCountryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -17,6 +18,9 @@ readonly class GetAllAppCountriesQueryHandler
 
     public function __invoke(GetAllAppCountriesQuery $query): array
     {
-        return $this->appCountryRepository->findAll();
+        $countries = $this->appCountryRepository->findAll();
+        usort($countries,
+            static fn(AppCountry $a, AppCountry $b) => strcmp($a->getName(), $b->getName()));
+        return $countries;
     }
 }

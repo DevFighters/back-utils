@@ -1,6 +1,6 @@
 <?php
 
-namespace DevFighters\Utils\Service\Email;
+namespace DevFighters\Utils\Application\Service\Email;
 
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;

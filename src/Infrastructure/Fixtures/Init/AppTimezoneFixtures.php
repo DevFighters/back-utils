@@ -29,7 +29,7 @@ class AppTimezoneFixtures extends Fixture implements FixtureGroupInterface
             $entity = $this->appTimezoneRepository->find($id) ?? new AppTimezone();
             $entity
                 ->setId($id)
-                ->setName($value->name());
+                ->setCode($value->code());
             $manager->persist($entity);
         }
         $manager->flush();

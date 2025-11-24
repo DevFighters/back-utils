@@ -22,7 +22,7 @@ class AppTimezone
     private int $id;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    private string $name;
+    private string $code;
 
     public function getId(): int
     {
@@ -34,13 +34,13 @@ class AppTimezone
         return $this;
     }
 
-    public function getName(): string
+    public function getCode(): string
     {
-        return $this->name;
+        return $this->code;
     }
-    public function setName(string $name): self
+    public function setCode(string $code): self
     {
-        $this->name = $name;
+        $this->code = $code;
         return $this;
     }
 
@@ -49,7 +49,7 @@ class AppTimezone
      */
     public function getDateTimeZone(): DateTimeZone
     {
-        return new DateTimeZone($this->getName());
+        return new DateTimeZone($this->getCode());
     }
 
 }

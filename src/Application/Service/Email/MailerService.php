@@ -1,6 +1,6 @@
 <?php
 
-namespace DevFighters\Utils\Service\Email;
+namespace DevFighters\Utils\Application\Service\Email;
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
