@@ -429,7 +429,7 @@ enum AppTimezoneEnum: int
     case PACIFIC_WALLIS = 419;
 
     /** Get a human-readable name for the enum case. */
-    public function name(): string
+    public function code(): string
     {
         return match ($this) {
             self::UTC => 'UTC',

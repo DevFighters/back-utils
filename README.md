@@ -38,6 +38,41 @@ Add the following variables to your `.env` file:
 
 **Note**: When `MAILER_TEST_ACTIVATE=true`, all outgoing emails will be redirected to `MAILER_TEST_RECIPIENT` instead of the intended recipients. This is useful for development and testing.
 
+
+### config/services.yaml
+```
+services :
+    DevFighters\Utils\:
+        resource: '../vendor/dev-fighters/back-utils/src/'
+        exclude:
+          - '../vendor/dev-fighters/back-utils/src/Entity/'
+          autowire: true
+          autoconfigure: true
+```
+
+### config/packages/doctrine.yaml
+```
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    DevFightersUtils:
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/dev-fighters/back-utils/src/Domain/Entity'
+                        prefix: 'DevFighters\Utils\Domain\Entity'
+                        alias: DevFightersUtils
+                                dql:
+                string_functions:
+                    replace: DoctrineExtensions\Query\Mysql\Replace
+                    MONTH: DoctrineExtensions\Query\Mysql\Month
+                    YEAR: DoctrineExtensions\Query\Mysql\Year
+                    ROUND: DoctrineExtensions\Query\Mysql\Round
+                    GROUP_CONCAT: DoctrineExtensions\Query\Mysql\GroupConcat
+                numeric_functions:
+                    RAND: DoctrineExtensions\Query\Mysql\Rand
+```
+
 ## Usage
 
 ### Load Sample Data

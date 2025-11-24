@@ -17,6 +17,6 @@ readonly class GetAllAppTimezonesQueryHandler
 
     public function __invoke(GetAllAppTimezonesQuery $query): array
     {
-        return $this->appTimezoneRepository->findAll();
+        return $this->appTimezoneRepository->getAll();
     }
 }

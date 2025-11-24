@@ -27,6 +27,15 @@ class AppTimezoneRepository extends RepositoryAbstract
         parent::__construct($registry, AppTimezone::class);
     }
 
+    /** @return AppTimezone[] */
+    public function getAll(): array
+    {
+        return $this->createQueryBuilder('appTimezone')
+            ->orderBy('appTimezone.code', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     /** @throws RandomException */
     public function getOneRandom(): ?AppTimezone
     {
