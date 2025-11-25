@@ -2,11 +2,14 @@
 
 namespace DevFighters\Utils\Domain\Enum;
 
+use DevFighters\Utils\Domain\Trait\Enum\RandomEnumTrait;
+
 /**
  * @method static self[] cases()  Retourne tous les cas de l'énumération
  */
 enum AppCurrencyEnum: int
 {
+    use RandomEnumTrait;
 
     case EUR = 1;
     case USD = 2;

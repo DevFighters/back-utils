@@ -2,11 +2,14 @@
 
 namespace DevFighters\Utils\Domain\Enum;
 
+use DevFighters\Utils\Domain\Trait\Enum\RandomEnumTrait;
+
 /**
  * @method static self[] cases()  Retourne tous les cas de l'énumération
  */
 enum AppTimezoneEnum: int
 {
+    use RandomEnumTrait;
 
     case UTC = 1;
     case AFRICA_ABIDJAN = 2;
