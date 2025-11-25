@@ -7,6 +7,7 @@ use DevFighters\Utils\Domain\Trait\Enum\RandomEnumTrait;
 
 enum AppLanguageEnum: int
 {
+
     use RandomEnumTrait;
 
     case FR = 1; // Français

@@ -8,14 +8,12 @@ readonly class AppLanguageOutput
 {
     public int $id;
     public string $code;
-    public string $name;
     public string $originalName;
 
     public function __construct(AppLanguage $language)
     {
         $this->id = $language->getId();
         $this->code = $language->getCode();
-        $this->name = $language->getName();
         $this->originalName = $language->getOriginalName();
 
     }

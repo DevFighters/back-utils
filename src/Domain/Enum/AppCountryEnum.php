@@ -2,11 +2,15 @@
 
 namespace DevFighters\Utils\Domain\Enum;
 
+use DevFighters\Utils\Domain\Trait\Enum\RandomEnumTrait;
+
 /**
  * @method static self[] cases()  Retourne tous les cas de l'énumération
  */
 enum AppCountryEnum: int
 {
+
+    use RandomEnumTrait;
 
     case AD = 1;
     case AE = 2;

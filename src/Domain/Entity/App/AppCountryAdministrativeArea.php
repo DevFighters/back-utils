@@ -3,6 +3,7 @@
 namespace DevFighters\Utils\Domain\Entity\App;
 
 use DevFighters\Utils\Domain\Repository\App\AppCountryAdministrativeAreaRepository;
+use DevFighters\Utils\Domain\Trait\CommonCode;
 use DevFighters\Utils\Domain\Trait\CommonDate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AppCountryAdministrativeArea
 {
     use CommonDate;
+    use CommonCode;
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "NONE")]
@@ -23,15 +25,13 @@ class AppCountryAdministrativeArea
     private AppCountry $country;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    private string $code;
-
-    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
     public function getId(): int
     {
         return $this->id;
     }
+
     public function setId(int $id): static
     {
         $this->id = $id;
@@ -42,19 +42,10 @@ class AppCountryAdministrativeArea
     {
         return $this->country;
     }
+
     public function setCountry(AppCountry $country): static
     {
         $this->country = $country;
-        return $this;
-    }
-
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-    public function setCode(string $code): static
-    {
-        $this->code = $code;
         return $this;
     }
 
@@ -62,6 +53,7 @@ class AppCountryAdministrativeArea
     {
         return $this->name;
     }
+
     public function setName(string $name): static
     {
         $this->name = $name;

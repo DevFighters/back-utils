@@ -20,6 +20,7 @@ readonly class GetAllAppLanguagesQueryHandler
     {
         $languages = $this->appTimezoneRepository->findAll();
         usort($languages,
-            static fn(AppLanguage $a, AppLanguage $b) => strcmp($a->getName(), $b->getName()));
+            static fn(AppLanguage $a, AppLanguage $b) => strcmp($a->getCode(), $b->getCode()));
+        return $languages;
     }
 }
