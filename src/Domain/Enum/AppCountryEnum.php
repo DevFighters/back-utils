@@ -9,6 +9,7 @@ use DevFighters\Utils\Domain\Trait\Enum\RandomEnumTrait;
  */
 enum AppCountryEnum: int
 {
+    use RandomEnumTrait;
 
     use RandomEnumTrait;
 
