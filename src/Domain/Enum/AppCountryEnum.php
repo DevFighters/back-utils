@@ -11,6 +11,8 @@ enum AppCountryEnum: int
 {
     use RandomEnumTrait;
 
+    use RandomEnumTrait;
+
     case AD = 1;
     case AE = 2;
     case AF = 3;

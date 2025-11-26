@@ -11,6 +11,8 @@ enum AppCurrencyEnum: int
 {
     use RandomEnumTrait;
 
+    use RandomEnumTrait;
+
     case EUR = 1;
     case USD = 2;
     case GBP = 3;

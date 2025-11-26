@@ -11,6 +11,8 @@ enum AppTimezoneEnum: int
 {
     use RandomEnumTrait;
 
+    use RandomEnumTrait;
+
     case UTC = 1;
     case AFRICA_ABIDJAN = 2;
     case AFRICA_ACCRA = 3;

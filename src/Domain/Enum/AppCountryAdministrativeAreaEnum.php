@@ -9,7 +9,9 @@ use DevFighters\Utils\Domain\Trait\Enum\RandomEnumTrait;
  */
 enum AppCountryAdministrativeAreaEnum: int
 {
+
     use RandomEnumTrait;
+
     case US_AL = 1;
     case US_AK = 2;
     case US_AZ = 3;

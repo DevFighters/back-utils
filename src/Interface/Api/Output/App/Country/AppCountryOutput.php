@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 class AppCountryOutput
 {
 
-    #[ApiProperty(identifier: true)]
     public int $id;
     public string $code;
     public string $name;
