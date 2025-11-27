@@ -31,6 +31,7 @@ class AppLanguageFixtures extends Fixture implements FixtureGroupInterface
                 ->setId($id)
                 ->setCode($value->name);
             $manager->persist($entity);
+            $this->addReference($id,$entity);
         }
         $manager->flush();
     }

@@ -68,7 +68,7 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/dev-fighters/back-utils/src/Domain/Entity'
                         prefix: 'DevFighters\Utils\Domain\Entity'
                         alias: DevFightersUtils
-                                dql:
+            dql:
                 string_functions:
                     replace: DoctrineExtensions\Query\Mysql\Replace
                     MONTH: DoctrineExtensions\Query\Mysql\Month

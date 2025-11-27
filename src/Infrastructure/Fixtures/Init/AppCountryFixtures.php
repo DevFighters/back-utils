@@ -12,8 +12,6 @@ use Doctrine\Persistence\ObjectManager;
 class AppCountryFixtures extends Fixture implements FixtureGroupInterface
 {
 
-    public const string REFERENCE = 'AppCountryEnum-';
-
     public function __construct(
         private readonly AppCountryRepository $appCountryRepository
     )
@@ -22,7 +20,6 @@ class AppCountryFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager): void
     {
-
         //PRE CHARGER LES DATAS
         $this->appCountryRepository->findAll();
 
@@ -33,8 +30,8 @@ class AppCountryFixtures extends Fixture implements FixtureGroupInterface
             $entity
                 ->setId($id)
                 ->setCode($value->name);
-            $this->addReference(self::REFERENCE . $id, $entity);
             $manager->persist($entity);
+            $this->addReference($id,$entity);
         }
         $manager->flush();
     }

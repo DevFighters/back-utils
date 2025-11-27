@@ -23,7 +23,6 @@ class AppCountryAdministrativeAreaFixtures extends Fixture implements DependentF
 
     public function load(ObjectManager $manager): void
     {
-
         //PRE CHARGER LES DATAS
         $this->appCountryAdministrativeAreaRepository->findAll();
 
@@ -38,7 +37,7 @@ class AppCountryAdministrativeAreaFixtures extends Fixture implements DependentF
              */
             $parentEnum = constant(AppCountryEnum::class . '::' . $parentCode);
 
-            $parent = $this->getReference(AppCountryFixtures::REFERENCE . $parentEnum->value, AppCountry::class);
+            $parent = $this->getReference($parentEnum->value,AppCountry::class);
             $entity = $this->appCountryAdministrativeAreaRepository->find($id) ?? new AppCountryAdministrativeArea();
             $entity
                 ->setId($id)
@@ -46,6 +45,7 @@ class AppCountryAdministrativeAreaFixtures extends Fixture implements DependentF
                 ->setCode($code)
                 ->setName($value->name());
             $manager->persist($entity);
+            $this->addReference($id,$entity);
         }
         $manager->flush();
     }

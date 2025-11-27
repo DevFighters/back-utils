@@ -33,6 +33,7 @@ class AppCurrencyFixtures extends Fixture implements FixtureGroupInterface
                 ->setName($value->name())
                 ->setSymbol($value->symbol());
             $manager->persist($entity);
+            $this->addReference($id,$entity);
         }
         $manager->flush();
     }

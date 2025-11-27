@@ -31,6 +31,7 @@ class AppTimezoneFixtures extends Fixture implements FixtureGroupInterface
                 ->setId($id)
                 ->setCode($value->code());
             $manager->persist($entity);
+            $this->addReference($id,$entity);
         }
         $manager->flush();
     }
