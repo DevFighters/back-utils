@@ -4,7 +4,6 @@ namespace DevFighters\Utils\Domain\Repository\App;
 
 use DevFighters\Utils\Domain\Entity\App\AppCountryAdministrativeArea;
 use DevFighters\Utils\Domain\RepositoryUtils\RepositoryAbstract;
-use DevFighters\Utils\Domain\RepositoryUtils\Trait\PersisterTrait;
 use Doctrine\Persistence\ManagerRegistry;
 use Random\RandomException;
 
@@ -19,7 +18,6 @@ use Random\RandomException;
  */
 class AppCountryAdministrativeAreaRepository extends RepositoryAbstract
 {
-    use PersisterTrait;
 
     public function __construct(ManagerRegistry $registry)
     {
