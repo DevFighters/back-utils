@@ -4,7 +4,6 @@ namespace DevFighters\Utils\Domain\Repository\App;
 
 use DevFighters\Utils\Domain\Entity\App\AppCountry;
 use DevFighters\Utils\Domain\RepositoryUtils\RepositoryAbstract;
-use DevFighters\Utils\Domain\RepositoryUtils\Trait\PersisterTrait;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,7 +17,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AppCountryRepository extends RepositoryAbstract
 {
-    use PersisterTrait;
 
     public function __construct(ManagerRegistry $registry)
     {

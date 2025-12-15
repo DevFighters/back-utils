@@ -58,6 +58,19 @@ class AppCountry
     {
         return $this->administrativeAreas;
     }
+    public function addAppCountryAdministrativeArea(AppCountryAdministrativeArea $administrativeArea): self
+    {
+        if (!$this->administrativeAreas->contains($administrativeArea)) {
+            $this->administrativeAreas->add($administrativeArea);
+            $administrativeArea->setCountry($this);
+        }
+        return $this;
+    }
+    public function removeAppCountryAdministrativeArea(AppCountryAdministrativeArea $administrativeArea): self
+    {
+        $this->administrativeAreas->removeElement($administrativeArea);
+        return $this;
+    }
     public function hasAdministrativeAreas(): bool
     {
         return !$this->administrativeAreas->isEmpty();

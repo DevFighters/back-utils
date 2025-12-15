@@ -45,7 +45,7 @@ class AppCountryAdministrativeArea
 
     public function setCountry(AppCountry $country): static
     {
-        $this->country = $country;
+        $this->country = $country->addAppCountryAdministrativeArea($this);
         return $this;
     }
 
