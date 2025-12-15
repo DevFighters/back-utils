@@ -1,6 +1,6 @@
 <?php
 
-namespace DevFighters\Utils\Interface\Api\Controller\_DataModel;
+namespace DevFighters\Utils\Interface\Response;
 
 use DevFighters\Utils\Application\DTO\File\PhysicalFileDTO;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
