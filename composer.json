@@ -69,5 +69,10 @@
     "psr-4": {
       "DevFighters\\Utils\\": "src"
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/runtime": true
+    }
   }
 }

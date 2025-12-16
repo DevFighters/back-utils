@@ -2,12 +2,13 @@
 
 namespace DevFighters\Utils\Application\UseCase\Excel;
 
+use DevFighters\Utils\Application\DTO\File\PhysicalFileDTO;
+use DevFighters\Utils\Interface\Response\DownloadPhysicalFileResponse;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class ExporterExcel
 {
@@ -24,22 +25,27 @@ abstract class ExporterExcel
         $this->spreadsheet->getCalculationEngine()?->disableCalculationCache();
     }
 
-    public function exportExcel(string $fileName = 'export'): StreamedResponse
+    public function exportExcel(string $fileName = 'export'): DownloadPhysicalFileResponse
     {
         $spreadsheet = $this->spreadsheet;
         $writer = new Xlsx($spreadsheet);
         $writer->setPreCalculateFormulas(false);
-        $response = new StreamedResponse(function () use ($writer) {
-            $writer->save('php://output');
-        });
 
-        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $fileName . '.xlsx"');
-        $response->headers->set('Cache-Control', 'max-age=0');
-
+        $tempPath = sys_get_temp_dir() . '/' . uniqid('spreadsheet_', true) . '.xlsx';
+        $writer->save($tempPath);
         $this->spreadsheet->garbageCollect();
 
-        return $response;
+        $physicalFileDto = new PhysicalFileDto()
+            ->setPhysicalPath($tempPath)
+            ->setName("$fileName.xlsx");
+
+        return new DownloadPhysicalFileResponse(
+            file: $physicalFileDto,
+            headers: [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Cache-Control' => 'max-age=0',
+            ]
+        )->deleteFileAfterSend();
     }
 
     protected function importTable(array $data, bool $useKeyAsHeader = true): void
