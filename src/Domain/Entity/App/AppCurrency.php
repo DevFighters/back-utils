@@ -24,14 +24,13 @@ class AppCurrency
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
-    #[ORM\Column(type: Types::STRING, length: 1, options: ['fixed' => true])]
+    #[ORM\Column(type: Types::STRING, length: 10)]
     private string $symbol;
 
     public function getId(): int
     {
         return $this->id;
     }
-
     public function setId(int $id): self
     {
         $this->id = $id;
@@ -42,7 +41,6 @@ class AppCurrency
     {
         return $this->code;
     }
-
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -53,7 +51,6 @@ class AppCurrency
     {
         return $this->name;
     }
-
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -64,7 +61,6 @@ class AppCurrency
     {
         return $this->symbol;
     }
-
     public function setSymbol(string $symbol): self
     {
         $this->symbol = $symbol;
