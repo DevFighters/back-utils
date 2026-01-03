@@ -12,20 +12,25 @@ readonly class TransactionBus
         private HandlerBus             $bus
     ) {}
 
-    public function run(object $command): mixed
+    public function run(object $command, bool $withTransaction = true): mixed
     {
-        $this->entityManager->beginTransaction();
+        if($withTransaction){
+            $this->entityManager->beginTransaction();
+        }
 
         try {
             $result = $this->bus->dispatch($command);
-
             $this->entityManager->flush();
-            $this->entityManager->commit();
+            if($withTransaction){
+                $this->entityManager->commit();
+            }
 
             return $result;
         }
         catch(ErrorException $e) {
-            $this->entityManager->rollback();
+            if($withTransaction){
+                $this->entityManager->rollback();
+            }
             throw $e;
         }
     }

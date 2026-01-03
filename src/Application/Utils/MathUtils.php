@@ -2,7 +2,6 @@
 
 namespace DevFighters\Utils\Application\Utils;
 
-use DateTime;
 use InvalidArgumentException;
 
 class MathUtils {
