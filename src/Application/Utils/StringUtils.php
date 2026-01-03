@@ -14,4 +14,14 @@ class StringUtils {
         return $randomString;
     }
 
+    public static function isBlank(?string $value): bool
+    {
+        return $value === null || trim($value) === '';
+    }
+
+    public static function isNotBlank(?string $value): bool
+    {
+        return !self::isBlank($value);
+    }
+
 }
