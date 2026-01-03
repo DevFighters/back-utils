@@ -34,4 +34,8 @@ trait UuidTrait {
     protected function isValidUuid(): bool{
         return Uuid::isValid($this->uuid);
     }
+    public function equals(?self $other): bool
+    {
+        return $this->getUuid() === $other?->getUuid();
+    }
 }
