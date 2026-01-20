@@ -2,6 +2,7 @@
 
 namespace DevFighters\Utils\Application\Bus;
 
+use LogicException;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
@@ -15,11 +16,21 @@ readonly class HandlerBus
     }
 
     /**
+     * @template TResult
+     * @param Message<TResult> $message
+     * @return TResult
      * @throws ExceptionInterface
      */
-    public function dispatch(mixed $message): mixed
+    public function handle(Message $message)
     {
         $envelope = $this->messageBus->dispatch($message);
-        return $envelope->last(HandledStamp::class)?->getResult();
+
+        $stamp = $envelope->last(HandledStamp::class);
+
+        if ($stamp === null) {
+            throw new LogicException('Message was not handled');
+        }
+
+        return $stamp->getResult();
     }
 }

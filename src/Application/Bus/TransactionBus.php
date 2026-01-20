@@ -3,34 +3,47 @@
 namespace DevFighters\Utils\Application\Bus;
 
 use Doctrine\ORM\EntityManagerInterface;
-use ErrorException;
 
 readonly class TransactionBus
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private HandlerBus             $bus
+        private HandlerBus $bus
     ) {}
 
-    public function run(object $command, bool $withTransaction = true): mixed
+    /**
+     * @template TResult
+     * @param Message<TResult> $command
+     * @return TResult
+     */
+    public function handle(Message $command, bool $withTransaction = true)
     {
-        if($withTransaction){
+        $inTransaction = false;
+
+        if (
+            $withTransaction
+            && !$this->entityManager->getConnection()->isTransactionActive()
+        ) {
             $this->entityManager->beginTransaction();
+            $inTransaction = true;
         }
 
         try {
-            $result = $this->bus->dispatch($command);
+            /** @var TResult $result */
+            $result = $this->bus->handle($command);
+
             $this->entityManager->flush();
-            if($withTransaction){
+
+            if ($inTransaction) {
                 $this->entityManager->commit();
             }
 
             return $result;
-        }
-        catch(ErrorException $e) {
-            if($withTransaction){
+        } catch (\Throwable $e) {
+            if ($inTransaction) {
                 $this->entityManager->rollback();
             }
+
             throw $e;
         }
     }
