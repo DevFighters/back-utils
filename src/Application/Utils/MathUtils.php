@@ -4,36 +4,58 @@ namespace DevFighters\Utils\Application\Utils;
 
 use InvalidArgumentException;
 
-class MathUtils {
-
+final class MathUtils
+{
     public const int DEFAULT_SCALE = 10;
 
-    public static function bcFloor(string $number, int $precision = 0): string {
+    /**
+     * @param numeric-string $number
+     * @return numeric-string
+     */
+    public static function bcFloor(string $number, int $precision = 0): string
+    {
         if ($precision < 0) {
             throw new InvalidArgumentException('Precision must be 0 or greater.');
         }
 
         if ($precision === 0) {
-            return bcadd($number, '0', 0); // Conserve seulement la partie entière
+            return bcadd($number, '0', 0);
         }
 
-        // Découper le nombre pour conserver uniquement la partie demandée
-        $factor = bcpow('10', (string)$precision, 0); // 10^precision
-        $temp = bcmul($number, $factor, 0); // Multiplier pour "décaler" la virgule
-        return bcdiv($temp, $factor, $precision); // Diviser pour ramener au format initial
+        /** @var numeric-string $factor */
+        $factor = bcpow('10', (string) $precision, 0);
+
+        /** @var numeric-string $temp */
+        $temp = bcmul($number, $factor, 0);
+
+        return bcdiv($temp, $factor, $precision);
     }
 
-    public static function bcResult(string $number):string{
-        if (str_contains($number,'.')) {
-            $number = rtrim($number,'0');
-            $number = rtrim($number,'.');
+    /**
+     * @param numeric-string $number
+     * @return numeric-string
+     */
+    public static function bcResult(string $number): string
+    {
+        if (str_contains($number, '.')) {
+            $number = rtrim($number, '0');
+            $number = rtrim($number, '.');
         }
+
         return $number;
     }
 
-    public static function bcTransform(int|float|string $number):string{
-        $value = number_format($number, self::DEFAULT_SCALE, '.', '');
-        return self::bcResult($value);
-    }
+    /**
+     * @param int|float|numeric-string $number
+     * @return numeric-string
+     */
+    public static function bcTransform(int|float|string $number): string
+    {
+        $value = number_format((float) $number, self::DEFAULT_SCALE, '.', '');
 
+        /** @var numeric-string $numeric */
+        $numeric = self::bcResult($value);
+
+        return $numeric;
+    }
 }
