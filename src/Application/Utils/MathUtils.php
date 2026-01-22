@@ -58,4 +58,9 @@ final class MathUtils
 
         return $numeric;
     }
+
+    public function isNumericString(string $value): bool
+    {
+        return preg_match('/^[+-]?\d+(\.\d+)?$/', $value) === 1;
+    }
 }
