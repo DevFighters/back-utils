@@ -49,10 +49,8 @@ the intended recipients. This is useful for development and testing.
 services :
     DevFighters\Utils\:
         resource: '../vendor/dev-fighters/back-utils/src/'
-        exclude:
-          - '../vendor/dev-fighters/back-utils/src/Entity/'
-          autowire: true
-          autoconfigure: true
+        autowire: true
+        autoconfigure: true
 ```
 
 ### config/packages/doctrine.yaml
@@ -61,13 +59,6 @@ services :
 doctrine:
     orm:
         entity_managers:
-            default:
-                mappings:
-                    DevFightersUtils:
-                        type: attribute
-                        dir: '%kernel.project_dir%/vendor/dev-fighters/back-utils/src/Domain/Entity'
-                        prefix: 'DevFighters\Utils\Domain\Entity'
-                        alias: DevFightersUtils
             dql:
                 string_functions:
                     replace: DoctrineExtensions\Query\Mysql\Replace
