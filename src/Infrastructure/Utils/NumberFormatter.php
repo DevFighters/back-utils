@@ -6,7 +6,7 @@ class NumberFormatter
 {
     public static function format(?string $number): ?string
     {
-        if(is_null($number)){
+        if (is_null($number)) {
             return null;
         }
         if (str_contains($number, '.')) {

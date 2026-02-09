@@ -12,7 +12,7 @@ trait RandomTrait
     public function findOneRandom(): mixed
     {
         $count = $this->count();
-        if ($count === 0) {
+        if (0 === $count) {
             return null;
         }
 

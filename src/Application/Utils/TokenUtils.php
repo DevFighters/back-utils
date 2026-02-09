@@ -6,7 +6,6 @@ use Symfony\Component\Uid\Uuid;
 
 class TokenUtils
 {
-
     public static function create(int $length = 15): string
     {
         return StringUtils::generateRandomString($length);

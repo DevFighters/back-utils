@@ -1,22 +1,21 @@
 <?php
 
-namespace DevFighters\Utils\Application\UseCase\Checker;
+namespace DevFighters\Utils\Application\UseCase\Email;
 
+use DevFighters\Utils\Application\UseCase\Checker\CheckerInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 readonly class DataChecker
 {
     public function __construct(private EntityManagerInterface $entityManager,
-                                private SymfonyStyle           $logger,
-                                private array                  $integrityChecks = [])
+        private SymfonyStyle $logger,
+        private array $integrityChecks = [])
     {
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function executeChecks(): bool
     {
@@ -26,11 +25,12 @@ readonly class DataChecker
                 $success = false;
             }
         }
+
         return $success;
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function executeIndividualCheck(array $integrityCheckData): bool
     {
@@ -41,9 +41,9 @@ readonly class DataChecker
         $validCheck = $checker->check();
 
         if ($validCheck) {
-            $this->logger->success("Checking " . $this->getShortName($integrityCheckData['dataClass']));
+            $this->logger->success('Checking '.$this->getShortName($integrityCheckData['dataClass']));
         } else {
-            $this->logger->section("Checking " . $this->getShortName($integrityCheckData['dataClass']));
+            $this->logger->section('Checking '.$this->getShortName($integrityCheckData['dataClass']));
             $this->logger->table(['<fg=red>x Errors</>'], $checker->getErrorMessages());
         }
 
@@ -51,10 +51,10 @@ readonly class DataChecker
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function getShortName(object|string $target): string
     {
-        return new ReflectionClass($target)->getShortName();
+        return new \ReflectionClass($target)->getShortName();
     }
 }

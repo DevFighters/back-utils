@@ -11,7 +11,6 @@ use Twig\Error\SyntaxError;
 
 class MailerBuilder
 {
-
     public const string MAILER_SENDER_EMAIL = 'MAILER_SENDER_EMAIL';
     public const string MAILER_SENDER_NAME = 'MAILER_SENDER_NAME';
 
@@ -25,12 +24,14 @@ class MailerBuilder
     {
         $this->email = new Email();
         $this->setDefaultSender();
+
         return $this;
     }
 
     public function destroyEmail(): self
     {
         unset($this->email);
+
         return $this;
     }
 
@@ -50,6 +51,7 @@ class MailerBuilder
     {
         $replyTo = new Address($address, $name);
         $this->email->from($replyTo);
+
         return $this;
     }
 
@@ -64,12 +66,14 @@ class MailerBuilder
     public function setRecipient(string $recipient): self
     {
         $this->email->to($recipient);
+
         return $this;
     }
 
     public function setRecipients(array $recipients): self
     {
         $this->email->to(...$recipients);
+
         return $this;
     }
 
@@ -84,6 +88,7 @@ class MailerBuilder
     public function setSubject(string $subject): self
     {
         $this->email->subject($subject);
+
         return $this;
     }
 
@@ -96,6 +101,7 @@ class MailerBuilder
     {
         $replyTo = new Address($address, $name);
         $this->email->replyTo($replyTo);
+
         return $this;
     }
 
@@ -110,6 +116,7 @@ class MailerBuilder
     public function setHtml(string $html): self
     {
         $this->email->html($html);
+
         return $this;
     }
 
@@ -120,10 +127,11 @@ class MailerBuilder
      */
     public function setHtmlByTemplate(
         string $twigPath,
-        array  $contextParameters = []): self
+        array $contextParameters = []): self
     {
         $html = $this->renderTwig($twigPath, $contextParameters);
         $this->setHtml($html);
+
         return $this;
     }
 
@@ -135,6 +143,7 @@ class MailerBuilder
     public function setText(string $text): self
     {
         $this->email->text($text);
+
         return $this;
     }
 
@@ -150,6 +159,7 @@ class MailerBuilder
             $name,
             $contentType
         );
+
         return $this;
     }
 
@@ -165,10 +175,10 @@ class MailerBuilder
      */
     private function renderTwig(
         string $twigPath,
-        array  $contextParameters = []): string
+        array $contextParameters = []): string
     {
         $html = $this->twig->render($twigPath, $contextParameters);
+
         return mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
     }
-
 }

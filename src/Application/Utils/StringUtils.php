@@ -2,26 +2,27 @@
 
 namespace DevFighters\Utils\Application\Utils;
 
-class StringUtils {
-
-    public static function generateRandomString($length = 10) : string{
+class StringUtils
+{
+    public static function generateRandomString($length = 10): string
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
-        while(strlen($randomString) < $length) {
-            $randomString .= $characters[Rand(0, $charactersLength - 1)];
+        while (strlen($randomString) < $length) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+
         return $randomString;
     }
 
     public static function isBlank(?string $value): bool
     {
-        return $value === null || trim($value) === '';
+        return null === $value || '' === trim($value);
     }
 
     public static function isNotBlank(?string $value): bool
     {
         return !self::isBlank($value);
     }
-
 }

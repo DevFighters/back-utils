@@ -2,9 +2,6 @@
 
 namespace DevFighters\Utils\Application\UseCase\Checker;
 
-use ReflectionClass;
-use ReflectionException;
-
 abstract class CheckerInterface
 {
     private array $results = [];
@@ -43,14 +40,14 @@ abstract class CheckerInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     protected function validateData(array $missingInDatabase, array $missingInReference): bool
     {
         $isValid = true;
 
         foreach ($missingInDatabase as $elementData) {
-            $this->addError(sprintf('"%s" exists in reference data but missing in database',$elementData));
+            $this->addError(sprintf('"%s" exists in reference data but missing in database', $elementData));
             $isValid = false;
         }
 
@@ -63,7 +60,7 @@ abstract class CheckerInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     protected function addError(string $error): void
     {
@@ -71,11 +68,10 @@ abstract class CheckerInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function getShortName(object|string $target): string
     {
-        return new ReflectionClass($target)->getShortName();
+        return new \ReflectionClass($target)->getShortName();
     }
-
 }

@@ -7,7 +7,6 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class MailerService
 {
-
     public const string MAILER_TEST_ACTIVATE = 'MAILER_TEST_ACTIVATE';
     public const string MAILER_TEST_RECIPIENT = 'MAILER_TEST_RECIPIENT';
     public const bool DEFAULT_TEST_MODE = true;
@@ -58,5 +57,4 @@ class MailerService
     {
         return $_ENV[$key] ?? null;
     }
-
 }

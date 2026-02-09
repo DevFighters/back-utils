@@ -6,8 +6,6 @@ use Twig\Environment;
 
 abstract class _Email
 {
-
-
     protected string $body;
 
     public function __construct(protected readonly Environment $twig)
@@ -18,7 +16,7 @@ abstract class _Email
 
     public function getSubject(): string
     {
-        return "Molteni - ";
+        return 'Molteni - ';
     }
 
     public function getTwig(): Environment
@@ -30,5 +28,4 @@ abstract class _Email
     {
         return $this->body;
     }
-
 }

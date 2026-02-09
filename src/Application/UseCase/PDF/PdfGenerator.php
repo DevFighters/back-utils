@@ -11,7 +11,6 @@ use Twig\Error\SyntaxError;
 
 class PdfGenerator
 {
-
     private Options $options;
     private Dompdf $dompdf;
 
@@ -47,6 +46,7 @@ class PdfGenerator
         $html = $this->render($template, $data);
         $this->dompdf->loadHtml($html);
         $this->dompdf->render();
+
         return $this->dompdf->output();
     }
 
@@ -59,15 +59,15 @@ class PdfGenerator
     {
         $html = $this->twig->render($template, $data);
         $this->encodeUtf8($html);
+
         return $html;
     }
 
     private function encodeUtf8(string &$html): void
     {
-        if (mb_detect_encoding($html, 'UTF-8', true) === false) {
+        if (false === mb_detect_encoding($html, 'UTF-8', true)) {
             $html = mb_convert_encoding($html, 'UTF-8', 'auto');
         }
-        $html = str_replace("\u{202F}", "&nbsp;", $html);
+        $html = str_replace("\u{202F}", '&nbsp;', $html);
     }
-
 }

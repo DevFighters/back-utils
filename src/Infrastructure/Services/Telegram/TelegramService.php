@@ -2,7 +2,6 @@
 
 namespace DevFighters\Utils\Infrastructure\Services\Telegram;
 
-use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -12,17 +11,15 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TelegramService
 {
-
     private HttpClientInterface $httpClient;
     private bool $isInitialized;
 
     public function __construct(
         private readonly string $botToken,
-        private readonly string $defaultChatId
-    )
-    {
+        private readonly string $defaultChatId,
+    ) {
         $this->httpClient = HttpClient::create();
-        $this->isInitialized = ($botToken !== "" && $defaultChatId !== "");
+        $this->isInitialized = ('' !== $botToken && '' !== $defaultChatId);
     }
 
     /**
@@ -53,8 +50,8 @@ class TelegramService
             ],
         ]);
 
-        if ($response->getStatusCode() !== 200) {
-            throw new RuntimeException('Failed to send message: ' . $response->getContent(false));
+        if (200 !== $response->getStatusCode()) {
+            throw new \RuntimeException('Failed to send message: '.$response->getContent(false));
         }
     }
 
@@ -62,6 +59,4 @@ class TelegramService
     {
         return $this->isInitialized;
     }
-
-
 }

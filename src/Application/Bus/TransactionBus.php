@@ -8,12 +8,15 @@ readonly class TransactionBus
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private HandlerBus $bus
-    ) {}
+        private HandlerBus $bus,
+    ) {
+    }
 
     /**
      * @template TResult
+     *
      * @param Message<TResult> $command
+     *
      * @return TResult
      */
     public function handle(Message $command, bool $withTransaction = true)
@@ -44,10 +47,7 @@ readonly class TransactionBus
                 $this->entityManager->rollback();
             }
 
-            throw new \RuntimeException(
-                'Transaction failed',
-                previous: $e
-            );
+            throw new \RuntimeException('Transaction failed', previous: $e);
         }
     }
 }

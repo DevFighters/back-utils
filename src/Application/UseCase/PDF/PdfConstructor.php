@@ -10,7 +10,6 @@ use Twig\Error\SyntaxError;
 
 class PdfConstructor
 {
-
     private PdfGenerator $pdfGenerator;
 
     public function __construct(Environment $twig)
@@ -26,9 +25,10 @@ class PdfConstructor
     public function streamPdf(
         string $template,
         string $fileName,
-        array  $data = []): Response
+        array $data = []): Response
     {
         $pdf = $this->pdfGenerator->buildPdf($template, $data);
+
         return $this->streamResponse($pdf, $fileName);
     }
 
@@ -40,18 +40,19 @@ class PdfConstructor
     public function downloadPdf(
         string $template,
         string $fileName,
-        array  $data = []): Response
+        array $data = []): Response
     {
         $pdf = $this->pdfGenerator->buildPdf($template, $data);
+
         return $this->downloadResponse($pdf, $fileName);
     }
-
 
     private function streamResponse(string $pdf, string $fileName): Response
     {
         $response = new Response($pdf);
         $response->headers->set('Content-Type', 'application/pdf');
         $response->headers->set('Content-Disposition', "inline; filename=$fileName");
+
         return $response;
     }
 
@@ -60,7 +61,7 @@ class PdfConstructor
         $response = new Response($pdf);
         $response->headers->set('Content-Type', 'application/pdf');
         $response->headers->set('Content-Disposition', "attachment; filename=$fileName");
+
         return $response;
     }
-
 }

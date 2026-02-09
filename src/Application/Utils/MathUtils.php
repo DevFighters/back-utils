@@ -2,23 +2,22 @@
 
 namespace DevFighters\Utils\Application\Utils;
 
-use InvalidArgumentException;
-
 final class MathUtils
 {
     public const int DEFAULT_SCALE = 10;
 
     /**
      * @param numeric-string $number
+     *
      * @return numeric-string
      */
     public static function bcFloor(string $number, int $precision = 0): string
     {
         if ($precision < 0) {
-            throw new InvalidArgumentException('Precision must be 0 or greater.');
+            throw new \InvalidArgumentException('Precision must be 0 or greater.');
         }
 
-        if ($precision === 0) {
+        if (0 === $precision) {
             return bcadd($number, '0', 0);
         }
 
@@ -33,6 +32,7 @@ final class MathUtils
 
     /**
      * @param numeric-string $number
+     *
      * @return numeric-string
      */
     public static function bcResult(string $number): string
@@ -47,6 +47,7 @@ final class MathUtils
 
     /**
      * @param int|float|numeric-string $number
+     *
      * @return numeric-string
      */
     public static function bcTransform(int|float|string $number): string
@@ -61,6 +62,6 @@ final class MathUtils
 
     public function isNumericString(string $value): bool
     {
-        return preg_match('/^[+-]?\d+(\.\d+)?$/', $value) === 1;
+        return 1 === preg_match('/^[+-]?\d+(\.\d+)?$/', $value);
     }
 }

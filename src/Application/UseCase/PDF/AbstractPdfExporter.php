@@ -10,13 +10,11 @@ use Twig\Error\SyntaxError;
 
 abstract class AbstractPdfExporter
 {
-
     protected PdfConstructor $pdfConstructor;
 
     public function __construct(
         Environment $twig,
-    )
-    {
+    ) {
         $this->pdfConstructor = new PdfConstructor($twig);
     }
 
@@ -53,5 +51,4 @@ abstract class AbstractPdfExporter
     abstract protected function getTemplate(): string;
 
     abstract protected function getName(): string;
-
 }

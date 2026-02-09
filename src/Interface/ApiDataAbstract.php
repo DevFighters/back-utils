@@ -12,23 +12,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
 {
-
     protected array $context;
     protected array $uriVariables;
     protected mixed $data;
 
     public function __construct(
-        protected HandlerBus             $bus,
-        protected Security               $security,
-        protected EntityManagerInterface $entityManager
-    )
-    {
+        protected HandlerBus $bus,
+        protected Security $security,
+        protected EntityManagerInterface $entityManager,
+    ) {
     }
 
     /**
-     * @param Operation $operation
-     * @param array $uriVariables
-     * @param array $context
      * @return object|object[]|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
@@ -42,11 +37,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     }
 
     /**
-     * @param mixed $data
-     * @param Operation $operation
-     * @param array $uriVariables
-     * @param array $context
-     * @return object|object[]|null|void
+     * @return object|object[]|void|null
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
@@ -75,14 +66,15 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
 
     protected function getParametersGET(string|int $parameterName): string|int|array|null
     {
+        /** @var string|array|null $variable */
         $variable = $this->context['filters'][$parameterName] ?? null;
 
-        if (filter_var($variable, FILTER_VALIDATE_INT) !== false) {
-            return (int)$variable;
+        if (false !== filter_var($variable, FILTER_VALIDATE_INT)) {
+            return (int) $variable;
         }
 
-        if (filter_var($variable, FILTER_VALIDATE_FLOAT) !== false) {
-            return (float)$variable;
+        if (false !== filter_var($variable, FILTER_VALIDATE_FLOAT)) {
+            return (float) $variable;
         }
 
         return $variable;
@@ -101,7 +93,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     protected function mapToMultipleOutputs(array $entities, string $outputClass): array
     {
         return array_map(
-            callback: static fn($entity) => new $outputClass($entity),
+            callback: static fn ($entity) => new $outputClass($entity),
             array: $entities
         );
     }

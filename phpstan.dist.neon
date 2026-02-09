@@ -1,0 +1,18 @@
+parameters:
+    level: 2
+
+    paths:
+        - src
+
+    tmpDir: var/cache/phpstan
+
+    inferPrivatePropertyTypeFromConstructor: true
+    checkMissingCallableSignature: true
+    checkImplicitMixed: true
+    treatPhpDocTypesAsCertain: true
+    reportUnmatchedIgnoredErrors: true
+
+rules:
+    - PHPStan\Rules\Arrays\IterableInForeachRule
+
+

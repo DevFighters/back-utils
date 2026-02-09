@@ -9,7 +9,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ImporterExcel
 {
-
     private bool $firstRowAsHeader = false;
     private bool $useHeaderAsKey = false;
     private bool $clearFormulas = true;
@@ -26,7 +25,6 @@ class ImporterExcel
             $sheet = $spreadsheet->getActiveSheet();
         }
 
-
         $sheetData = $this->extractSheetData($sheet);
         if ($this->firstRowAsHeader) {
             if ($this->useHeaderAsKey) {
@@ -34,8 +32,8 @@ class ImporterExcel
             } else {
                 array_shift($sheetData);
             }
-
         }
+
         return $sheetData;
     }
 
@@ -47,6 +45,7 @@ class ImporterExcel
     public function setFirstRowAsHeader(bool $firstRowAsHeader): static
     {
         $this->firstRowAsHeader = $firstRowAsHeader;
+
         return $this;
     }
 
@@ -58,6 +57,7 @@ class ImporterExcel
     public function setUseHeaderAsKey(bool $useHeaderAsKey): static
     {
         $this->useHeaderAsKey = $useHeaderAsKey;
+
         return $this;
     }
 
@@ -69,9 +69,9 @@ class ImporterExcel
     public function setClearFormulas(bool $clearFormulas): static
     {
         $this->clearFormulas = $clearFormulas;
+
         return $this;
     }
-
 
     private function extractSheetData(Worksheet $sheet): array
     {
@@ -79,6 +79,7 @@ class ImporterExcel
         foreach ($sheet->getRowIterator() as $row) {
             $sheetData[] = $this->extractRowData($row);
         }
+
         return $sheetData;
     }
 
@@ -88,6 +89,7 @@ class ImporterExcel
         foreach ($row->getCellIterator() as $cell) {
             $rowData[] = $this->extractCellData($cell);
         }
+
         return $rowData;
     }
 
@@ -95,12 +97,13 @@ class ImporterExcel
     {
         $cellData = $cell->getValue();
         if (is_string($cellData)) {
-            $cellData = str_replace(array("\xc2\xa0", '_x000D_'), array(" ", ''), $cellData);
+            $cellData = str_replace(["\xc2\xa0", '_x000D_'], [' ', ''], $cellData);
             $cellData = rtrim($cellData);
         }
         if ($this->clearFormulas && str_starts_with($cellData, '=')) {
             $cellData = null;
         }
+
         return $cellData;
     }
 
@@ -111,6 +114,4 @@ class ImporterExcel
             return array_combine($keys, $row);
         }, $data);
     }
-
-
 }

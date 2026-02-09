@@ -6,8 +6,8 @@ use DevFighters\Utils\Application\DTO\File\PhysicalFileDTO;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
-class DownloadPhysicalFileResponse extends BinaryFileResponse {
-
+class DownloadPhysicalFileResponse extends BinaryFileResponse
+{
     public function __construct(
         PhysicalFileDTO $file,
         int $status = 200,
@@ -15,8 +15,8 @@ class DownloadPhysicalFileResponse extends BinaryFileResponse {
         bool $public = true,
         ?string $contentDisposition = null,
         bool $autoEtag = false,
-        bool $autoLastModified = true) {
-
+        bool $autoLastModified = true)
+    {
         parent::__construct(
             $file->getPhysicalPath(),
             $status,
@@ -31,5 +31,4 @@ class DownloadPhysicalFileResponse extends BinaryFileResponse {
             filename: $file->getName()
         );
     }
-
 }

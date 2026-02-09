@@ -34,7 +34,7 @@ abstract class ExporterExcel
         });
 
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $fileName . '.xlsx"');
+        $response->headers->set('Content-Disposition', 'attachment;filename="'.$fileName.'.xlsx"');
         $response->headers->set('Cache-Control', 'max-age=0');
 
         $this->spreadsheet->garbageCollect();
@@ -68,7 +68,7 @@ abstract class ExporterExcel
             $colLetter = Coordinate::stringFromColumnIndex($index + 1);
             $this->sheet->setCellValue("$colLetter$row", $columnName);
         }
-        $row++;
+        ++$row;
     }
 
     private function fillData(array $data, int &$row): void
@@ -79,7 +79,7 @@ abstract class ExporterExcel
                 $colLetter = Coordinate::stringFromColumnIndex($index + 1);
                 $this->sheet->setCellValue("$colLetter$row", $value);
             }
-            $row++;
+            ++$row;
         }
     }
 
@@ -99,5 +99,4 @@ abstract class ExporterExcel
             ->setWrapText(true)
             ->setVertical(Alignment::VERTICAL_CENTER);
     }
-
 }
