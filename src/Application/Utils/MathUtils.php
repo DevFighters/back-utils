@@ -42,6 +42,10 @@ final class MathUtils
             $number = rtrim($number, '.');
         }
 
+        if (!is_numeric($number)) {
+            throw new \InvalidArgumentException('Number must be numeric');
+        }
+
         return $number;
     }
 
