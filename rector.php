@@ -17,7 +17,11 @@ return RectorConfig::configure()
         codingStyle: true,
         typeDeclarations: true,
         typeDeclarationDocblocks: true,
-        symfonyCodeQuality: true
+        instanceOf: true,
+        earlyReturn: true,
+        doctrineCodeQuality: true,
+        symfonyCodeQuality: true,
+        symfonyConfigs: true
     )
     ->withComposerBased(
         twig: true,
