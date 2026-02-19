@@ -48,7 +48,7 @@ abstract class ExporterExcel
     protected function importTable(array $data, bool $useKeyAsHeader = true): void
     {
         // More intuitive than relying on array_key_first().
-        if ($useKeyAsHeader && empty($data)) {
+        if ($useKeyAsHeader && $data === []) {
             return;
         }
 
