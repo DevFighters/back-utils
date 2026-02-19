@@ -48,7 +48,8 @@ abstract class RepositoryAbstract extends ServiceEntityRepository
         $entity = $this->find($id, $lockMode, $lockVersion);
 
         if (null === $entity) {
-            throw new EntityNotFoundException(sprintf('Entity not found: %s with id %s', $this->getEntityName(), $id));
+            $idToDisplay = is_scalar($id) ? (string) $id : get_debug_type($id);
+            throw new EntityNotFoundException(sprintf('Entity not found: %s with id %s', $this->getEntityName(), $idToDisplay));
         }
 
         return $entity;
