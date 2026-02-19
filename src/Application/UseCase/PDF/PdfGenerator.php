@@ -37,6 +37,8 @@ class PdfGenerator
     }
 
     /**
+     * @param array<string, mixed> $data
+     *
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
@@ -51,6 +53,8 @@ class PdfGenerator
     }
 
     /**
+     * @param array<string, mixed> $data
+     *
      * @throws RuntimeError
      * @throws SyntaxError
      * @throws LoaderError
@@ -65,8 +69,17 @@ class PdfGenerator
 
     private function encodeUtf8(string &$html): void
     {
-        if (false === mb_detect_encoding($html, 'UTF-8', true)) {
-            $html = mb_convert_encoding($html, 'UTF-8', 'auto');
+        if (mb_detect_encoding($html, 'UTF-8', true) !== false) {
+
+            /**
+             * @var string|false $convertedHtml
+             */
+            $convertedHtml = mb_convert_encoding($html, 'UTF-8', 'auto');
+
+            if ($convertedHtml === false) {
+                throw new \RuntimeException('Encoding conversion failed');
+            }
+            $html = $convertedHtml;
         }
         $html = str_replace("\u{202F}", '&nbsp;', $html);
     }
