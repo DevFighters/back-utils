@@ -46,6 +46,9 @@ abstract class AbstractPdfExporter
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     abstract protected function getData(): array;
 
     abstract protected function getTemplate(): string;
