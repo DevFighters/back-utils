@@ -4,13 +4,13 @@ namespace DevFighters\Utils\Application\Utils;
 
 class StringUtils
 {
-    public static function generateRandomString($length = 10): string
+    public static function generateRandomString(int $length = 10): string
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
         while (strlen($randomString) < $length) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
 
         return $randomString;
