@@ -29,7 +29,7 @@ abstract class ExporterExcel
         $spreadsheet = $this->spreadsheet;
         $writer = new Xlsx($spreadsheet);
         $writer->setPreCalculateFormulas(false);
-        $response = new StreamedResponse(function () use ($writer) {
+        $response = new StreamedResponse(function () use ($writer): void {
             $writer->save('php://output');
         });
 
