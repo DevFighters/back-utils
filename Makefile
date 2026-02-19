@@ -25,3 +25,6 @@ php-stan:
 php-cs-fixer:
 	$(PHP_CS_FIXER) fix
 
+access: ##
+	chmod -R 777 ./
+
