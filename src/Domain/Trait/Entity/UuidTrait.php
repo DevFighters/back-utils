@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
+/** @phpstan-ignore trait.unused */
 trait UuidTrait
 {
     #[ORM\Column(type: Types::STRING, unique: true, nullable: false)]
