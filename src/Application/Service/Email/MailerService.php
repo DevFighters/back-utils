@@ -41,10 +41,12 @@ class MailerService
     }
     private function isTestMode(): bool
     {
-        return filter_var(
-            $this->getEnv(self::MAILER_TEST_ACTIVATE) ?? self::DEFAULT_TEST_MODE,
-            FILTER_VALIDATE_BOOL
-        );
+        $isTestMode = $this->getEnv(self::MAILER_TEST_ACTIVATE);
+        if ('' === $isTestMode) {
+            return self::DEFAULT_TEST_MODE;
+        }
+
+        return filter_var($isTestMode, FILTER_VALIDATE_BOOL);
     }
     private function ifTestModePerformActions(MailerBuilder $mailerBuilder): void
     {
@@ -53,8 +55,10 @@ class MailerService
             $this->setSubjectForTest($mailerBuilder);
         }
     }
-    private function getEnv(string $key): mixed
+    private function getEnv(string $key): string
     {
-        return $_ENV[$key] ?? null;
+        $value = $_ENV[$key] ?? '';
+
+        return is_scalar($value) ? (string) $value : '';
     }
 }
