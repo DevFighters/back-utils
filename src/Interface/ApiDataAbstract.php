@@ -118,7 +118,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
 
     protected function mapToSingleOutput(?object $entity, string $outputClass): ?object
     {
-        return (!is_null($entity)) ? new $outputClass($entity) : null;
+        return (is_null($entity)) ? null : new $outputClass($entity);
     }
 
     /**
@@ -130,7 +130,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     protected function mapToMultipleOutputs(array $entities, string $outputClass): array
     {
         return array_map(
-            callback: static fn ($entity): object => new $outputClass($entity),
+            callback: static fn (object $entity): object => new $outputClass($entity),
             array: $entities
         );
     }
@@ -166,7 +166,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     protected function getSecurityUser(): UserInterface
     {
         $user = $this->security->getUser();
-        if (null === $user) {
+        if (!$user instanceof UserInterface) {
             throw new \LogicException('Authenticated user is required.');
         }
 
