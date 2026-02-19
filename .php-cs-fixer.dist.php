@@ -6,6 +6,7 @@ $finder = new PhpCsFixer\Finder()
 return new PhpCsFixer\Config()
     ->setRules([
         '@Symfony' => true,
-        'class_attributes_separation' => false
+        'class_attributes_separation' => false,
+        'yoda_style' => false,
     ])
     ->setFinder($finder);
