@@ -18,6 +18,8 @@ class PdfConstructor
     }
 
     /**
+     * @param array<string, mixed> $data
+     *
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
@@ -33,6 +35,8 @@ class PdfConstructor
     }
 
     /**
+     * @param array<string, mixed> $data
+     *
      * @throws RuntimeError
      * @throws SyntaxError
      * @throws LoaderError
