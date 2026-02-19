@@ -27,7 +27,6 @@ class MailerBuilder
 
         return $this;
     }
-
     public function destroyEmail(): self
     {
         unset($this->email);
@@ -46,7 +45,6 @@ class MailerBuilder
             address: $this->getEnv(self::MAILER_SENDER_EMAIL),
             name: $this->getEnv(self::MAILER_SENDER_NAME));
     }
-
     public function setSender(string $address, string $name = ''): self
     {
         $replyTo = new Address($address, $name);
@@ -54,7 +52,6 @@ class MailerBuilder
 
         return $this;
     }
-
     /**
      * @return Address[]
      */
@@ -69,14 +66,15 @@ class MailerBuilder
 
         return $this;
     }
-
+    /**
+     * @param list<string|Address> $recipients
+     */
     public function setRecipients(array $recipients): self
     {
         $this->email->to(...$recipients);
 
         return $this;
     }
-
     /**
      * @return Address[]
      */
@@ -91,8 +89,7 @@ class MailerBuilder
 
         return $this;
     }
-
-    public function getSubject(): string
+    public function getSubject(): ?string
     {
         return $this->email->getSubject();
     }
@@ -121,6 +118,8 @@ class MailerBuilder
     }
 
     /**
+     * @param array<string, mixed> $contextParameters
+     *
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
@@ -134,10 +133,16 @@ class MailerBuilder
 
         return $this;
     }
-
     public function getHtml(): ?string
     {
-        return $this->email->getHtmlBody();
+        $html = $this->email->getHtmlBody();
+        if (is_resource($html)) {
+            $body = stream_get_contents($html);
+
+            return false !== $body ? $body : null;
+        }
+
+        return is_string($html) ? $html : null;
     }
 
     public function setText(string $text): self
@@ -146,12 +151,21 @@ class MailerBuilder
 
         return $this;
     }
-
     public function getText(): ?string
     {
-        return $this->email->getTextBody();
+        $text = $this->email->getTextBody();
+        if (is_resource($text)) {
+            $body = stream_get_contents($text);
+
+            return false !== $body ? $body : null;
+        }
+
+        return is_string($text) ? $text : null;
     }
 
+    /**
+     * @param resource|string $body
+     */
     public function addAttach($body, ?string $name = null, ?string $contentType = null): self
     {
         $this->email->attach(
@@ -163,12 +177,16 @@ class MailerBuilder
         return $this;
     }
 
-    protected function getEnv(string $key): mixed
+    protected function getEnv(string $key): string
     {
-        return $_ENV[$key] ?? null;
+        $value = $_ENV[$key] ?? '';
+
+        return is_scalar($value) ? (string) $value : '';
     }
 
     /**
+     * @param array<string, mixed> $contextParameters
+     *
      * @throws RuntimeError
      * @throws SyntaxError
      * @throws LoaderError
