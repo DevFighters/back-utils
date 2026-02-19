@@ -16,6 +16,7 @@ abstract class RepositoryAbstract extends ServiceEntityRepository
     /**
      * @return TEntity|null
      */
+    #[\Override]
     public function find(
         mixed $id,
         LockMode|int|null $lockMode = null,
