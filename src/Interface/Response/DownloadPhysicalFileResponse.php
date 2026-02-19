@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DownloadPhysicalFileResponse extends BinaryFileResponse
 {
+    /**
+     * @param array<string, string|string[]> $headers
+     */
     public function __construct(
         PhysicalFileDTO $file,
         int $status = 200,
