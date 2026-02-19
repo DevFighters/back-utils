@@ -13,7 +13,7 @@ class DateUtils
      */
     public static function getDate(?string $value): ?\DateTime
     {
-        if ($value === null || trim($value) === '') {
+        if (null === $value || '' === trim($value)) {
             return null;
         }
 

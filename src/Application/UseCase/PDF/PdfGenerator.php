@@ -69,14 +69,13 @@ class PdfGenerator
 
     private function encodeUtf8(string &$html): void
     {
-        if (mb_detect_encoding($html, 'UTF-8', true) !== false) {
-
+        if (false !== mb_detect_encoding($html, 'UTF-8', true)) {
             /**
              * @var string|false $convertedHtml
              */
             $convertedHtml = mb_convert_encoding($html, 'UTF-8', 'auto');
 
-            if ($convertedHtml === false) {
+            if (false === $convertedHtml) {
                 throw new \RuntimeException('Encoding conversion failed');
             }
             $html = $convertedHtml;

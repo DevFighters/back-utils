@@ -68,7 +68,7 @@ abstract class ExporterExcel
      */
     private function fillHeader(array $data, int &$row): void
     {
-        if ($data === []) {
+        if ([] === $data) {
             return;
         }
 

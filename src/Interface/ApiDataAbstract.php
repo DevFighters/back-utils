@@ -22,7 +22,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     protected array $context;
 
     /**
-     * @var array<string|int, mixed>
+     * @var array<string, string|array<string,string>>
      */
     protected array $uriVariables;
     protected mixed $data;
@@ -34,7 +34,10 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     ) {
     }
 
-
+    /**
+     * @param array<string, string|array<string,string>> $uriVariables
+     * @param array<string, mixed>                       $context
+     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $this->setApiPlatformVariables(
@@ -45,7 +48,10 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         return $this->normalizeResult($this->run());
     }
 
-
+    /**
+     * @param array<string, string|array<string,string>> $uriVariables
+     * @param array<string, mixed>                       $context
+     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $this->setData($data);
@@ -61,8 +67,8 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     abstract public function run(): mixed;
 
     /**
-     * @param array<string|int, mixed> $uriVariables
-     * @param array<string, mixed>     $context
+     * @param array<string, string|array<string,string>> $uriVariables
+     * @param array<string, mixed>                       $context
      */
     protected function setApiPlatformVariables(array $uriVariables, array $context): void
     {
@@ -107,13 +113,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
      */
     protected function getParametersURI(string|int $parameterName): string|array|null
     {
-        $value = $this->uriVariables[$parameterName] ?? null;
-
-        if (is_array($value) || is_string($value)) {
-            return $value;
-        }
-
-        return null;
+        return $this->uriVariables[$parameterName] ?? null;
     }
 
     protected function mapToSingleOutput(?object $entity, string $outputClass): ?object
@@ -169,11 +169,10 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         return true;
     }
 
-
     protected function getSecurityUser(): UserInterface
     {
         $user = $this->security->getUser();
-        if ($user === null) {
+        if (null === $user) {
             throw new \LogicException('Authenticated user is required.');
         }
 

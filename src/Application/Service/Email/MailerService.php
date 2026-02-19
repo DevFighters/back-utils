@@ -37,7 +37,7 @@ class MailerService
     private function setSubjectForTest(MailerBuilder $mailerBuilder): void
     {
         $originalSubject = $mailerBuilder->getSubject();
-        $subject = trim('!-TEST-! ' . $originalSubject);
+        $subject = trim('!-TEST-! '.$originalSubject);
         $mailerBuilder->setSubject($subject);
     }
     private function isTestMode(): bool
