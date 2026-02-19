@@ -85,4 +85,14 @@ Priorité absolue à :
 
 ## Commandes
 
-Pour utiliser PHP, utilisation du container docker PHP : `docker compose -f .docker/docker-compose.yml exec php`
+### ⚠️ Règle Obligatoire — Exécution PHP
+
+Toutes les commandes PHP DOIVENT être exécutées exclusivement dans le container Docker `php`.
+
+Il est strictement interdit d’utiliser `php`, `composer` ou `bin/console` directement sur la machine hôte.
+
+---
+
+### Commande standard
+
+`docker compose -f .docker/docker-compose.yml exec php <commande>`
