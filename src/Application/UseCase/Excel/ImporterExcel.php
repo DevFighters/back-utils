@@ -115,7 +115,7 @@ class ImporterExcel
         }
 
         if ($this->clearFormulas && is_string($cellData) && str_starts_with($cellData, '=')) {
-            $cellData = null;
+            return null;
         }
 
         return $cellData;
@@ -132,6 +132,6 @@ class ImporterExcel
 
         $keys = array_shift($data);
         $headerKeys = array_map(static fn (mixed $key): string => (string) $key, $keys);
-        $data = array_map(static fn ($row): array => array_combine($headerKeys, array_values($row)) ?: [], $data);
+        $data = array_map(static fn (array $row): array => array_combine($headerKeys, array_values($row)) ?: [], $data);
     }
 }
