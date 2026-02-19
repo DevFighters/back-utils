@@ -4,6 +4,7 @@ namespace DevFighters\Utils\Domain\Trait;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/** @phpstan-ignore trait.unused */
 trait CommonDate
 {
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
