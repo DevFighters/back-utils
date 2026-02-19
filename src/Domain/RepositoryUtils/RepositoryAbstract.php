@@ -16,6 +16,7 @@ abstract class RepositoryAbstract extends ServiceEntityRepository
     /**
      * @return TEntity|null
      */
+    #[\Override]
     public function find(
         mixed $id,
         LockMode|int|null $lockMode = null,
@@ -48,7 +49,8 @@ abstract class RepositoryAbstract extends ServiceEntityRepository
         $entity = $this->find($id, $lockMode, $lockVersion);
 
         if (null === $entity) {
-            throw new EntityNotFoundException(sprintf('Entity not found: %s with id %s', $this->getEntityName(), $id));
+            $idToDisplay = is_scalar($id) ? (string) $id : get_debug_type($id);
+            throw new EntityNotFoundException(sprintf('Entity not found: %s with id %s', $this->getEntityName(), $idToDisplay));
         }
 
         return $entity;

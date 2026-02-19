@@ -4,10 +4,6 @@ namespace DevFighters\Utils\Infrastructure\Services\Google;
 
 class GoogleTranslateService
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @throws \JsonException
      */
@@ -33,7 +29,22 @@ class GoogleTranslateService
         }
 
         $json = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+        if (!is_array($json)) {
+            return null;
+        }
 
-        return $json[0][0][0] ?? null;
+        $firstLevel = $json[0] ?? null;
+        if (!is_array($firstLevel)) {
+            return null;
+        }
+
+        $secondLevel = $firstLevel[0] ?? null;
+        if (!is_array($secondLevel)) {
+            return null;
+        }
+
+        $translatedText = $secondLevel[0] ?? null;
+
+        return is_string($translatedText) ? $translatedText : null;
     }
 }

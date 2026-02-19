@@ -11,5 +11,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # WORK DIR
 WORKDIR /var/www/
 
+# PATH
+ENV PATH="/var/www/vendor/bin:${PATH}"
+
+# MEMORY LIMIT
+RUN echo "memory_limit=2G" > /usr/local/etc/php/conf.d/99-memory-limit.ini
+
 # KEEP HYSTORY COMMAND
 RUN ln -sf /bin/bash /bin/sh

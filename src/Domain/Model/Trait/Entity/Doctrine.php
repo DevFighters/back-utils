@@ -7,6 +7,7 @@ use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Persistence\ObjectManager;
 
+/** @phpstan-ignore trait.unused */
 trait Doctrine
 {
     protected ObjectManager $em;

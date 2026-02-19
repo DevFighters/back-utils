@@ -13,10 +13,12 @@ class DateUtils
      */
     public static function getDate(?string $value): ?\DateTime
     {
-        if (is_null($value) || '' === trim($value)) {
+        if (null === $value || '' === trim($value)) {
             return null;
         }
 
-        return \DateTime::createFromFormat('Y-m-d', $value);
+        $date = \DateTime::createFromFormat('!Y-m-d', $value);
+
+        return $date ?: null;
     }
 }

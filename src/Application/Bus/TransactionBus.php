@@ -47,7 +47,7 @@ readonly class TransactionBus
                 $this->entityManager->rollback();
             }
 
-            throw new \RuntimeException('Transaction failed', previous: $e);
+            throw new \RuntimeException('Transaction failed', $e->getCode(), previous: $e);
         }
     }
 }

@@ -21,7 +21,7 @@ abstract class ExporterExcel
         // Increase the memory limit for large datasets
         ini_set('memory_limit', self::CACHE_MEMORY_LIMIT);
         $this->spreadsheet = new Spreadsheet();
-        $this->spreadsheet->getCalculationEngine()?->disableCalculationCache();
+        $this->spreadsheet->getCalculationEngine()->disableCalculationCache();
     }
 
     public function exportExcel(string $fileName = 'export'): StreamedResponse
@@ -29,7 +29,7 @@ abstract class ExporterExcel
         $spreadsheet = $this->spreadsheet;
         $writer = new Xlsx($spreadsheet);
         $writer->setPreCalculateFormulas(false);
-        $response = new StreamedResponse(function () use ($writer) {
+        $response = new StreamedResponse(function () use ($writer): void {
             $writer->save('php://output');
         });
 
@@ -42,10 +42,13 @@ abstract class ExporterExcel
         return $response;
     }
 
+    /**
+     * @param array<int, array<int|string, mixed>> $data
+     */
     protected function importTable(array $data, bool $useKeyAsHeader = true): void
     {
         // More intuitive than relying on array_key_first().
-        if ($useKeyAsHeader && empty($data)) {
+        if ($useKeyAsHeader && $data === []) {
             return;
         }
 
@@ -60,9 +63,17 @@ abstract class ExporterExcel
         $this->finalizeStyling();
     }
 
+    /**
+     * @param array<int, array<int|string, mixed>> $data
+     */
     private function fillHeader(array $data, int &$row): void
     {
-        $columns = array_keys($data[array_key_first($data)]);
+        if ([] === $data) {
+            return;
+        }
+
+        $firstLine = $data[array_key_first($data)];
+        $columns = array_keys($firstLine);
         foreach ($columns as $index => $columnName) {
             // Switched column index logic to Coordinate::stringFromColumnIndex() (safe for any number of columns)
             $colLetter = Coordinate::stringFromColumnIndex($index + 1);
@@ -71,6 +82,9 @@ abstract class ExporterExcel
         ++$row;
     }
 
+    /**
+     * @param array<int, array<int|string, mixed>> $data
+     */
     private function fillData(array $data, int &$row): void
     {
         foreach ($data as $line) {

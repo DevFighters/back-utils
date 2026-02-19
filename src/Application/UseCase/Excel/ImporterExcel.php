@@ -13,6 +13,9 @@ class ImporterExcel
     private bool $useHeaderAsKey = false;
     private bool $clearFormulas = true;
 
+    /**
+     * @return array<int, array<int|string, bool|float|int|string|null>>
+     */
     public function extractData(string $filePath, ?string $sheetName = null): array
     {
         $spreadsheet = IOFactory::load($filePath);
@@ -73,6 +76,9 @@ class ImporterExcel
         return $this;
     }
 
+    /**
+     * @return array<int, array<int, bool|float|int|string|null>>
+     */
     private function extractSheetData(Worksheet $sheet): array
     {
         $sheetData = [];
@@ -83,6 +89,9 @@ class ImporterExcel
         return $sheetData;
     }
 
+    /**
+     * @return array<int, bool|float|int|string|null>
+     */
     private function extractRowData(Row $row): array
     {
         $rowData = [];
@@ -96,22 +105,33 @@ class ImporterExcel
     private function extractCellData(Cell $cell): string|float|int|bool|null
     {
         $cellData = $cell->getValue();
+        if (!is_string($cellData) && !is_int($cellData) && !is_float($cellData) && !is_bool($cellData) && !is_null($cellData)) {
+            return null;
+        }
+
         if (is_string($cellData)) {
             $cellData = str_replace(["\xc2\xa0", '_x000D_'], [' ', ''], $cellData);
             $cellData = rtrim($cellData);
         }
-        if ($this->clearFormulas && str_starts_with($cellData, '=')) {
-            $cellData = null;
+
+        if ($this->clearFormulas && is_string($cellData) && str_starts_with($cellData, '=')) {
+            return null;
         }
 
         return $cellData;
     }
 
+    /**
+     * @param array<int, array<int|string, bool|float|int|string|null>> $data
+     */
     private function transformDataWithHeaderKey(array &$data): void
     {
+        if ([] === $data) {
+            return;
+        }
+
         $keys = array_shift($data);
-        $data = array_map(static function ($row) use ($keys) {
-            return array_combine($keys, $row);
-        }, $data);
+        $headerKeys = array_map(static fn (mixed $key): string => (string) $key, $keys);
+        $data = array_map(static fn (array $row): array => array_combine($headerKeys, array_values($row)) ?: [], $data);
     }
 }

@@ -4,6 +4,7 @@ namespace DevFighters\Utils\Domain\RepositoryUtils\Trait;
 
 use Random\RandomException;
 
+/** @phpstan-ignore trait.unused */
 trait RandomTrait
 {
     /**

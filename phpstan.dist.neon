@@ -1,16 +1,29 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
+
 parameters:
-    level: 2
+    level: max
+    phpVersion: 80400
 
     paths:
         - src
 
+    parallel:
+        maximumNumberOfProcesses: 4
+
     tmpDir: var/cache/phpstan
 
-    inferPrivatePropertyTypeFromConstructor: true
-    checkMissingCallableSignature: true
-    checkImplicitMixed: true
-    treatPhpDocTypesAsCertain: true
-    reportUnmatchedIgnoredErrors: true
+    inferPrivatePropertyTypeFromConstructor: true #Infère automatiquement les types depuis le constructeur.
+    checkMissingCallableSignature: true #Force la signature précise des callables.
+    checkImplicitMixed: true #Interdit les variables implicitement mixed
+    checkExplicitMixed: true #Interdit même les mixed déclarés explicitement.
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true #Détecte les types de retour trop larges.
+    checkMissingVarTagTypehint: true #Forcer les @var à être correctement typés.
+    treatPhpDocTypesAsCertain: true #Considère les PHPDoc comme fiables à 100%.
+    reportUnmatchedIgnoredErrors: true #Signale quand une règle dans ignoreErrors ne correspond plus à aucune erreur.
+
 
 rules:
     - PHPStan\Rules\Arrays\IterableInForeachRule

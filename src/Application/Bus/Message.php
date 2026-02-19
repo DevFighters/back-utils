@@ -3,7 +3,7 @@
 namespace DevFighters\Utils\Application\Bus;
 
 /**
- * @template TResult
+ * @template-covariant TResult
  */
 interface Message
 {
