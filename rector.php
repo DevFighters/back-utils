@@ -23,6 +23,6 @@ return RectorConfig::configure()
         __DIR__ . '/phpstan.dist.neon',
     ])
     ->withFluentCallNewLine()
-    ->withTypeCoverageLevel(1)
-    ->withDeadCodeLevel(1)
-    ->withCodeQualityLevel(1);
+    ->withTypeCoverageLevel(10)
+    ->withDeadCodeLevel(10)
+    ->withCodeQualityLevel(10);

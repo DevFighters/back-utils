@@ -132,6 +132,6 @@ class ImporterExcel
 
         $keys = array_shift($data);
         $headerKeys = array_map(static fn (mixed $key): string => (string) $key, $keys);
-        $data = array_map(static fn ($row) => array_combine($headerKeys, array_values($row)) ?: [], $data);
+        $data = array_map(static fn ($row): array => array_combine($headerKeys, array_values($row)) ?: [], $data);
     }
 }

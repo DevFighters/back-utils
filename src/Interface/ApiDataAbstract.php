@@ -130,7 +130,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     protected function mapToMultipleOutputs(array $entities, string $outputClass): array
     {
         return array_map(
-            callback: static fn ($entity) => new $outputClass($entity),
+            callback: static fn ($entity): object => new $outputClass($entity),
             array: $entities
         );
     }
@@ -160,7 +160,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
             return false;
         }
 
-        return array_all($value, fn ($item) => is_object($item));
+        return array_all($value, fn ($item): bool => is_object($item));
     }
 
     protected function getSecurityUser(): UserInterface
