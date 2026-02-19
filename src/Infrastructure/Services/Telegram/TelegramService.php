@@ -9,14 +9,14 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class TelegramService
+readonly class TelegramService
 {
     private HttpClientInterface $httpClient;
     private bool $isInitialized;
 
     public function __construct(
-        private readonly string $botToken,
-        private readonly string $defaultChatId,
+        private string $botToken,
+        private string $defaultChatId,
     ) {
         $this->httpClient = HttpClient::create();
         $this->isInitialized = ('' !== $botToken && '' !== $defaultChatId);
