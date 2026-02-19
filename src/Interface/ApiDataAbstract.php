@@ -10,9 +10,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @implements ProviderInterface<object>
+ * @implements ProcessorInterface<mixed, mixed>
+ */
 abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
 {
+    /**
+     * @var array<string, mixed>
+     */
     protected array $context;
+
+    /**
+     * @var array<string|int, mixed>
+     */
     protected array $uriVariables;
     protected mixed $data;
 
@@ -23,9 +34,7 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
     ) {
     }
 
-    /**
-     * @return object|object[]|null
-     */
+
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $this->setApiPlatformVariables(
@@ -33,13 +42,11 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
             context: $context
         );
 
-        return $this->run();
+        return $this->normalizeResult($this->run());
     }
 
-    /**
-     * @return object|object[]|void|null
-     */
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $this->setData($data);
 
@@ -51,8 +58,12 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         return $this->run();
     }
 
-    abstract public function run();
+    abstract public function run(): mixed;
 
+    /**
+     * @param array<string|int, mixed> $uriVariables
+     * @param array<string, mixed>     $context
+     */
     protected function setApiPlatformVariables(array $uriVariables, array $context): void
     {
         $this->uriVariables = $uriVariables;
@@ -64,25 +75,45 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         $this->data = $data;
     }
 
-    protected function getParametersGET(string|int $parameterName): string|int|array|null
+    /**
+     * @return string|int|float|bool|array<string|int, mixed>|null
+     */
+    protected function getParametersGET(string|int $parameterName): string|int|float|bool|array|null
     {
-        /** @var string|array|null $variable */
-        $variable = $this->context['filters'][$parameterName] ?? null;
+        $filters = $this->context['filters'] ?? null;
+        if (!is_array($filters)) {
+            return null;
+        }
 
-        if (false !== filter_var($variable, FILTER_VALIDATE_INT)) {
+        $variable = $filters[$parameterName] ?? null;
+
+        if (is_scalar($variable) && false !== filter_var($variable, FILTER_VALIDATE_INT)) {
             return (int) $variable;
         }
 
-        if (false !== filter_var($variable, FILTER_VALIDATE_FLOAT)) {
+        if (is_scalar($variable) && false !== filter_var($variable, FILTER_VALIDATE_FLOAT)) {
             return (float) $variable;
         }
 
-        return $variable;
+        if (is_array($variable) || is_string($variable) || is_int($variable) || is_float($variable) || is_bool($variable) || null === $variable) {
+            return $variable;
+        }
+
+        return null;
     }
 
-    protected function getParametersURI(string|int $parameterName): string|int|array|null
+    /**
+     * @return string|array<string,string>|null
+     */
+    protected function getParametersURI(string|int $parameterName): string|array|null
     {
-        return $this->uriVariables[$parameterName] ?? null;
+        $value = $this->uriVariables[$parameterName] ?? null;
+
+        if (is_array($value) || is_string($value)) {
+            return $value;
+        }
+
+        return null;
     }
 
     protected function mapToSingleOutput(?object $entity, string $outputClass): ?object
@@ -90,6 +121,12 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         return (!is_null($entity)) ? new $outputClass($entity) : null;
     }
 
+    /**
+     * @param list<object> $entities
+     * @param class-string $outputClass
+     *
+     * @return list<object>
+     */
     protected function mapToMultipleOutputs(array $entities, string $outputClass): array
     {
         return array_map(
@@ -98,8 +135,48 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         );
     }
 
+    /**
+     * @return object|list<object>|null
+     */
+    private function normalizeResult(mixed $result): object|array|null
+    {
+        if (is_object($result) || null === $result) {
+            return $result;
+        }
+
+        if (!$this->isObjectList($result)) {
+            return null;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @phpstan-assert-if-true list<object> $value
+     */
+    private function isObjectList(mixed $value): bool
+    {
+        if (!is_array($value)) {
+            return false;
+        }
+
+        foreach ($value as $item) {
+            if (!is_object($item)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     protected function getSecurityUser(): UserInterface
     {
-        return $this->security->getUser();
+        $user = $this->security->getUser();
+        if ($user === null) {
+            throw new \LogicException('Authenticated user is required.');
+        }
+
+        return $user;
     }
 }
