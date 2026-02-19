@@ -159,7 +159,8 @@ abstract class ApiDataAbstract implements ProviderInterface, ProcessorInterface
         if (!is_array($value)) {
             return false;
         }
-        return array_all($value, fn($item) => is_object($item));
+
+        return array_all($value, fn ($item) => is_object($item));
     }
 
     protected function getSecurityUser(): UserInterface
