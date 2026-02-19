@@ -85,13 +85,11 @@ Priorité absolue à :
 
 ## Commandes
 
-### ⚠️ Règle Obligatoire — Exécution PHP
+### Règle Obligatoire — Exécution PHP
 
 Toutes les commandes PHP DOIVENT être exécutées exclusivement dans le container Docker `php`.
 
 Il est strictement interdit d’utiliser `php`, `composer` ou `bin/console` directement sur la machine hôte.
-
----
 
 ### Commande standard
 
