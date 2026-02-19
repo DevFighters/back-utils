@@ -4,10 +4,6 @@ namespace DevFighters\Utils\Infrastructure\Services\Google;
 
 class GoogleTranslateService
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @throws \JsonException
      */
