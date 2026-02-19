@@ -19,17 +19,17 @@ readonly class HandlerBus
      *
      * @return TResult
      */
-    public function handle(Message $message)
+    public function handle(Message $message): mixed
     {
         try {
             $envelope = $this->messageBus->dispatch($message);
         } catch (\Throwable $e) {
-            throw new \RuntimeException('Message dispatch failed', previous: $e);
+            throw new \RuntimeException('Message dispatch failed', $e->getCode(), previous: $e);
         }
 
         $stamp = $envelope->last(HandledStamp::class);
 
-        if (null === $stamp) {
+        if (!$stamp instanceof \Symfony\Component\Messenger\Stamp\StampInterface) {
             throw new \LogicException('Message was not handled');
         }
 
