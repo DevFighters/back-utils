@@ -8,6 +8,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 readonly class DataChecker
 {
+    /**
+     * @param list<array{checkClass: class-string, dataClass: object|class-string, ...}> $integrityChecks
+     */
     public function __construct(private EntityManagerInterface $entityManager,
         private SymfonyStyle $logger,
         private array $integrityChecks = [])
@@ -30,13 +33,18 @@ readonly class DataChecker
     }
 
     /**
+     * @param array{checkClass: class-string, dataClass: object|class-string, ...} $integrityCheckData
+     *
      * @throws \ReflectionException
      */
     private function executeIndividualCheck(array $integrityCheckData): bool
     {
-        /** @var CheckerInterface $checker */
+        /** @var class-string $checkClass */
         $checkClass = $integrityCheckData['checkClass'];
         $checker = new $checkClass($this->entityManager, $integrityCheckData);
+        if (!$checker instanceof CheckerInterface) {
+            throw new \InvalidArgumentException(sprintf('"%s" must extend %s', $checkClass, CheckerInterface::class));
+        }
 
         $validCheck = $checker->check();
 
@@ -52,6 +60,9 @@ readonly class DataChecker
 
     /**
      * @throws \ReflectionException
+     */
+    /**
+     * @param object|class-string $target
      */
     private function getShortName(object|string $target): string
     {
