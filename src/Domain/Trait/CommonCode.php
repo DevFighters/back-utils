@@ -5,6 +5,7 @@ namespace DevFighters\Utils\Domain\Trait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/** @phpstan-ignore trait.unused */
 trait CommonCode
 {
     #[ORM\Column(type: Types::STRING, length: 255)]
