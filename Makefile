@@ -10,8 +10,9 @@ DOCKER_CONTAINER_PHP = $(DOCKER_COMPOSE) exec php
 
 COMPOSER = composer
 PHP = $(DOCKER_CONTAINER_PHP) php -d memory_limit=-1
-PHP_STAN = $(PHP) vendor/bin/phpstan
-PHP_CS_FIXER = $(PHP) vendor/bin/php-cs-fixer
+PHP_STAN = $(PHP) phpstan
+PHP_CS_FIXER = $(PHP) php-cs-fixer
+PHP_RECTOR = $(PHP) rector
 
 ## ----- Docker -----
 
@@ -27,4 +28,8 @@ php-cs-fixer:
 
 access: ##
 	chmod -R 777 ./
+
+rector:
+	$(PHP_RECTOR)
+	$(PHP_CS_FIXER) fix
 

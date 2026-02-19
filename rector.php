@@ -12,7 +12,13 @@ return RectorConfig::configure()
     ->withPhpVersion(PhpVersion::PHP_84)
     ->withPhpSets(php84: true)
     ->withPreparedSets(
-        symfonyCodeQuality: true)
+        deadCode: true,
+        codeQuality: true,
+        codingStyle: true,
+        typeDeclarations: true,
+        typeDeclarationDocblocks: true,
+        symfonyCodeQuality: true
+    )
     ->withComposerBased(
         twig: true,
         doctrine: true,
@@ -22,7 +28,4 @@ return RectorConfig::configure()
     ->withPHPStanConfigs([
         __DIR__ . '/phpstan.dist.neon',
     ])
-    ->withFluentCallNewLine()
-    ->withTypeCoverageLevel(10)
-    ->withDeadCodeLevel(10)
-    ->withCodeQualityLevel(10);
+    ->withFluentCallNewLine();
