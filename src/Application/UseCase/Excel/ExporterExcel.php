@@ -42,6 +42,16 @@ abstract class ExporterExcel
         return $response;
     }
 
+    public function saveExcel(string $path = '/tmp/export'): void
+    {
+        $spreadsheet = $this->spreadsheet;
+        $writer = new Xlsx($spreadsheet);
+        $writer->setPreCalculateFormulas(false);
+        $writer->save($path);
+
+        $this->spreadsheet->garbageCollect();
+    }
+
     /**
      * @param array<int, array<int|string, mixed>> $data
      */
