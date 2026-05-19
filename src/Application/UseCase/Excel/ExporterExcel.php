@@ -111,6 +111,11 @@ abstract class ExporterExcel
         $this->finalizeStyling();
     }
 
+    protected function activateFirstSheet(): void
+    {
+        $this->spreadsheet->setActiveSheetIndex(0);
+    }
+
     /**
      * @param array<int, array<int|string, mixed>> $data
      */
