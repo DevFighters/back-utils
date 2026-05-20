@@ -89,8 +89,9 @@ abstract class ExporterExcel
 
         // Remove all existing sheets if requested
         if ($resetSheets) {
-            foreach ($this->spreadsheet->getAllSheets() as $index => $sheet) {
-                $this->spreadsheet->removeSheetByIndex($index);
+            $sheetCount = $this->spreadsheet->getSheetCount();
+            for ($i = $sheetCount - 1; $i >= 0; $i--) {
+                $this->spreadsheet->removeSheetByIndex($i);
             }
             // Always create a fresh first sheet
             $this->sheet = $this->spreadsheet->createSheet(0);
