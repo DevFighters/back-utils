@@ -42,13 +42,23 @@ abstract class ExporterExcel
         return $response;
     }
 
+    public function saveExcel(string $path = '/tmp/export'): void
+    {
+        $spreadsheet = $this->spreadsheet;
+        $writer = new Xlsx($spreadsheet);
+        $writer->setPreCalculateFormulas(false);
+        $writer->save($path);
+
+        $this->spreadsheet->garbageCollect();
+    }
+
     /**
      * @param array<int, array<int|string, mixed>> $data
      */
     protected function importTable(array $data, bool $useKeyAsHeader = true): void
     {
         // More intuitive than relying on array_key_first().
-        if ($useKeyAsHeader && $data === []) {
+        if ($useKeyAsHeader && [] === $data) {
             return;
         }
 
@@ -61,6 +71,50 @@ abstract class ExporterExcel
 
         $this->fillData($data, $row);
         $this->finalizeStyling();
+    }
+
+    /**
+     * @param array<int, array<int|string, mixed>> $data
+     */
+    protected function importTableNewSheet(
+        array $data,
+        string $sheetName,
+        bool $useKeyAsHeader = true,
+        bool $resetSheets = false,
+    ): void {
+        // More intuitive than relying on array_key_first().
+        if ($useKeyAsHeader && [] === $data) {
+            return;
+        }
+
+        // Remove all existing sheets if requested
+        if ($resetSheets) {
+            $sheetCount = $this->spreadsheet->getSheetCount();
+            for ($i = $sheetCount - 1; $i >= 0; --$i) {
+                $this->spreadsheet->removeSheetByIndex($i);
+            }
+            // Always create a fresh first sheet
+            $this->sheet = $this->spreadsheet->createSheet(0);
+        } else {
+            // Create a new sheet after existing ones
+            $this->sheet = $this->spreadsheet->createSheet();
+        }
+
+        $this->sheet->setTitle($sheetName);
+
+        $row = 1;
+
+        if ($useKeyAsHeader) {
+            $this->fillHeader($data, $row);
+        }
+
+        $this->fillData($data, $row);
+        $this->finalizeStyling();
+    }
+
+    protected function activateFirstSheet(): void
+    {
+        $this->spreadsheet->setActiveSheetIndex(0);
     }
 
     /**
@@ -103,9 +157,9 @@ abstract class ExporterExcel
         $highestCol = $this->sheet->getHighestColumn();
         $range = "A1:$highestCol$highestRow";
 
-        foreach (range('A', $highestCol) as $col) {
-            $this->sheet->getColumnDimension($col)
-                ->setAutoSize(true);
+        foreach ($this->sheet->getColumnIterator() as $column) {
+            $columnIndex = $column->getColumnIndex(); // e.g., A, B, C, AA, AB...
+            $this->sheet->getColumnDimension($columnIndex)->setAutoSize(true);
         }
 
         $this->sheet->getStyle($range)
